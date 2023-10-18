@@ -1,0 +1,21 @@
+* {
+	font-family: Arial, sans-serif;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    margin-bottom: 30px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 10px;
+}
+
+
+
