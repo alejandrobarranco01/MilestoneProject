@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore contents inside .metadata folder for Eclipse/STS
+.metadata/
