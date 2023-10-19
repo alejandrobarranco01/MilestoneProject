@@ -1,33 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Y</title>
-      <link rel="stylesheet" href="/css/styles.css">
-      <link rel="icon" th:href="@{/images/favicon.png}" type="image/png">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-   </head>
-   <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-         <a class="navbar-brand" href="/">
-         <img th:src="@{/images/logo.png}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
-         Y
-         </a>
-         <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
-               <li class="nav-item">
-                  <a class="nav-link" th:href="@{/signout}">Sign Out</a>
-               </li>
-            </ul>
-         </div>
-      </nav>
-      <div class="container mt-5">
-         <div class="jumbotron">
-            <h1 class="display-4">Logged In</h1>
-            <p class="lead">You are now logged in!</p>
-            <hr class="my-4">
-         </div>
-      </div>
-   </body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Y</title>
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="icon" th:href="@{/images/favicon.png}" type="image/png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/">
+			<img th:src="@{/images/logo.png}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+			Y
+		</a>
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/signout}">Sign Out</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- Container containing Sidebar and Feed Container -->
+	<div class="container-fluid">
+		<div class="row">
+
+			<!-- Sidebar -->
+			<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+				<div class="position-sticky">
+					<ul class="nav flex-column">
+						<li class="nav-item">
+							<form>
+								<div class="form-group">
+									<label for="title">Title:</label>
+									<input type="text" class="form-control" required>
+								</div>
+								<div class="form-group">
+									<label for="text">Post Text:</label>
+									<textarea class="form-control" required></textarea>
+								</div>
+								<button type="submit" class="btn btn-primary">Create Post</button>
+							</form>
+
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<!-- Feed Container -->
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<div class="jumbotron">
+					<h1 class="display-4">Logged In</h1>
+					<p class="lead">You are now logged in!</p>
+					<hr class="my-4">
+				</div>
+			</main>
+			
+			
+		</div>
+	</div>
+	
+	
+</body>
+
 </html>
