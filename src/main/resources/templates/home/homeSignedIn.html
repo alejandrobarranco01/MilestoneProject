@@ -68,9 +68,16 @@
 						<div th:each="post : ${posts}">
 							<h2>Title: <span th:text="${post.title}"></span></h2>
 							<p>Post: <span th:text="${post.text}"></span></p>
-							<hr> 
+
+							<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
+
+
+							<hr>
 						</div>
 					</div>
+
 				</div>
 			</main>
 
