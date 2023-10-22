@@ -54,6 +54,6 @@ public class RegisterController {
 		}
 		// Process registration logic and redirect to home view for signed-in users
 		model.addAttribute("message", "Test Message");
-		return "home/homeSignedIn";
+		return "redirect:/home/homeSignedIn";
 	}
 }
