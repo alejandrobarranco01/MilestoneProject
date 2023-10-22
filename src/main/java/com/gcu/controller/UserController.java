@@ -38,8 +38,6 @@ public class UserController {
 	@PostMapping("/createPost")
     public String createPost(PostModel newPost) {
         posts.add(newPost);
-        System.out.println(newPost.getId());
-        System.out.println("here");
         return "redirect:/home/homeSignedIn";
     }
 	
