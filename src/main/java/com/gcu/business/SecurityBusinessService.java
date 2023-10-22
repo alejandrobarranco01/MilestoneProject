@@ -9,4 +9,9 @@ public class SecurityBusinessService {
 		
 		return true;
 	}
+	public boolean createAccount(String email, String username, String password) {
+		// Incorporate business logic to create account send information to database
+		
+		return true;
+	}
 }
