@@ -55,6 +55,18 @@ public class UserController {
 	    }
 	    return "redirect:/home/homeSignedIn";
 	}
+	
+	@PostMapping("/viewPost/{id}")
+    public String viewPost(@PathVariable Long id, Model model) {
+        for (PostModel post : posts) {
+            if (post.getId().equals(id)) {
+                model.addAttribute("post", post);
+                return "viewPost"; // 
+            }
+        }
+  
+        return "error"; 
+    }
     
 	
 	

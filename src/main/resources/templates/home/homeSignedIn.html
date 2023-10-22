@@ -69,9 +69,17 @@
 							<h2>Title: <span th:text="${post.title}"></span></h2>
 							<p>Post: <span th:text="${post.text}"></span></p>
 
-							<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
-								<button type="submit" class="btn btn-danger">Delete</button>
-							</form>
+							<!-- Button container just to put them side by side -->
+							<div class="d-flex">
+								<form th:action="@{'/home/viewPost/' + ${post.id}}" method="post" class="mr-2">
+									<button type="submit" class="btn btn-primary">View</button>
+								</form>
+								<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>
+							</div>
+
+
 
 
 							<hr>
