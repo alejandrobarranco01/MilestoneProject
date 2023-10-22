@@ -3,6 +3,7 @@
  */
 package com.gcu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.RegisterModel;
 
 import jakarta.validation.Valid;
@@ -20,6 +22,8 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+	@Autowired
+	private SecurityBusinessService security;
 	
 	/**
 	 * Displays the registration form view and populates the model with necessary attributes.
@@ -52,6 +56,14 @@ public class RegisterController {
 			model.addAttribute("title", "Registration Form");
 			return "register";
 		}
+		
+		if (!security.createAccount(registerModel.getEmail(), 
+				registerModel.getUsername(), registerModel.getPassword()) ) {
+			// If there's any errors in creating the account display message
+			return "register";
+		}
+		
+		
 		// Process registration logic and redirect to home view for signed-in users
 		model.addAttribute("message", "Test Message");
 		return "redirect:/home/homeSignedIn";
