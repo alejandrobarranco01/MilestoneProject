@@ -3,6 +3,7 @@
  */
 package com.gcu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.LoginModel;
 
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.validation.Valid;
 
 /**
@@ -20,6 +23,8 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
+	@Autowired
+	private SecurityBusinessService security;
 
 	/**
 	 * Displays the login form view and populates the model with necessary
@@ -54,6 +59,12 @@ public class LoginController {
 			model.addAttribute("title", "Login Form");
 			return "login";
 		}
+		
+		if (!security.authenticate(loginModel.getUsername(), loginModel.getPassword())) {
+			// Display errors in login page
+			return "login";
+		}
+		
 
 		// Process login logic and redirect to home view for signed-in users
 		return "redirect:/home/homeSignedIn";
