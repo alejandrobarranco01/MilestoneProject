@@ -1,4 +1,11 @@
 HELP.md
+
+# Ignore everything in the target folder
+target/*
+
+# Except for MILESTONE.jar
+!target/MILESTONE.jar
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
