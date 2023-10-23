@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
  * This class should authenticate and create accounts
  */
 @Service
-public class SecurityBusinessService {
+public class SecurityBusinessService implements SecurityBusinessServiceInterface{
 	public boolean authenticate(String username, String password) {
 		// Incorporate business logic to verify information with database
 		
