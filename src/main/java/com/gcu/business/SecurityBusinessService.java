@@ -12,9 +12,10 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		
 		return true;
 	}
+
 	public boolean createAccount(String email, String username, String password) {
 		// Incorporate business logic to create account send information to database
-		
+		System.out.println("test from SecurityBusiness: " + email);
 		return true;
 	}
 }
