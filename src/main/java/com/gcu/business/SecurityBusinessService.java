@@ -2,6 +2,9 @@ package com.gcu.business;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * This class should authenticate and create accounts
+ */
 @Service
 public class SecurityBusinessService {
 	public boolean authenticate(String username, String password) {
