@@ -3,6 +3,7 @@
  */
 package com.gcu.model;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import jakarta.validation.constraints.AssertTrue;
@@ -14,8 +15,8 @@ import jakarta.validation.constraints.Size;
  */
 public class RegisterModel {
 	@Id
+	@GeneratedValue
 	private Long id;
-
     /**
      * User's email address for registration.
      */
