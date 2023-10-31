@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gcu.business.PostsBusinessService;
 import com.gcu.model.PostModel;
 
 @Controller
 @RequestMapping("/home")
 @CrossOrigin("http://localhost:8080")
 public class UserController {
+	@Autowired
+	PostsBusinessService postService; 
     private List<PostModel> posts = new ArrayList<>();
-
 	
     @GetMapping("/homeSignedIn")
     public String homeSignedIn(Model model) {
@@ -64,9 +67,6 @@ public class UserController {
         }
   
         return "error"; 
-    }
-    
-	
-	
+    }	
 	
 }
