@@ -1,18 +1,20 @@
 package com.gcu.data.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-
-
 @Table("USERS")
 public class UserEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column("ID")
 	Long id;
 	@Column("USERNAME")
@@ -26,6 +28,17 @@ public class UserEntity {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<PostEntity> posts;
+
+	public List<PostEntity> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<PostEntity> posts) {
+		this.posts = posts;
 	}
 
 	public Long getId() {
