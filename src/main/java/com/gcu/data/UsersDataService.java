@@ -29,10 +29,23 @@ public class UsersDataService implements UsersDataAccessInterface<UserEntity> {
 
 	@Override
     public boolean createAccount(UserEntity user) {
+		// Check if the username or email already exists
+	    if (userExists(user.getUsername(), user.getEmail())) {
+	        // User with the same username or email already exists
+	        return false;
+	    }
+	    
         String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES (?, ?, ?)";
         int rowsAffected = jdbcTemplateObject.update(sql, user.getUsername(), user.getEmail(), user.getPassword());
         return rowsAffected > 0;
     }
+	
+	@Override
+	public boolean userExists(String username, String email) {
+	    String sql = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? OR EMAIL = ?";
+	    int count = jdbcTemplateObject.queryForObject(sql, Integer.class, username, email);
+	    return count > 0;
+	}
 
 	
 	@Override
