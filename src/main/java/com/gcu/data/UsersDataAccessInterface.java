@@ -5,8 +5,7 @@ import java.util.List;
 import com.gcu.data.entity.UserEntity;
 
 public interface UsersDataAccessInterface<T> {
-	public List<UserEntity> findAll();
-	public T findById(Long id);
-	public boolean create(T t);
-	public boolean delete(T t);
+	public boolean verifyLogin(String email, String password);
+	public boolean createAccount(T t);
+	public boolean userExists(String username, String email);
 }
