@@ -26,41 +26,19 @@ public class UsersDataService implements UsersDataAccessInterface<UserEntity> {
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 
-	@Override
-	public List<UserEntity> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public UserEntity findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean createAccount(UserEntity user) {
+        String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES (?, ?, ?)";
+        int rowsAffected = jdbcTemplateObject.update(sql, user.getUsername(), user.getEmail(), user.getPassword());
+        return rowsAffected > 0;
+    }
 
+	
 	@Override
-	public boolean create(UserEntity t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean delete(UserEntity t) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean verify(String email, String password) {
-	    // Write a SQL query to check if the provided username and password exist in the database
-	    String sql = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ? AND PASSWORD = ?";
-
-	    // Use JdbcTemplate to execute the query
-	    int count = jdbcTemplateObject.queryForObject(sql, Integer.class, email, password);
-	    
-	    
-	    // If count is greater than 0, it means a matching user was found
-	    return count > 0;
+	public boolean verifyLogin(String email, String password) {
+        // If count is greater than 0, it means a matching user was found
+        return usersRepository.verifyLogin(email, password) > 0;
 	}
 
 

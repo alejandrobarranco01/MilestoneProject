@@ -1,14 +1,18 @@
 package com.gcu.data.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 
+
 @Table("USERS")
 public class UserEntity {
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column("ID")
 	Long id;
 	@Column("USERNAME")
@@ -18,8 +22,7 @@ public class UserEntity {
 	@Column("PASSWORD")
 	String password;
 
-	public UserEntity(Long id, String username, String email, String password) {
-		this.id = id;
+	public UserEntity(String username, String email, String password) {
 		this.username = username;
 		this.email = email;
 		this.password = password;

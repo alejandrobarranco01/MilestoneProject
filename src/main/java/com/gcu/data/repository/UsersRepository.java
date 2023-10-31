@@ -10,5 +10,7 @@ import com.gcu.data.entity.UserEntity;
 
 @Repository
 public interface UsersRepository extends CrudRepository<UserEntity, Long>{
+	@Query("SELECT COUNT(*) FROM USERS WHERE EMAIL = :email AND PASSWORD = :password")
+    public int verifyLogin(String email, String password);
 	
 }

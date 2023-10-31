@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.UsersDataService;
+import com.gcu.data.entity.UserEntity;
 
 /**
  * This class should authenticate and create accounts
@@ -14,12 +15,12 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	UsersDataService service;
 	
 	public boolean authenticate(String email, String password) {
-		return service.verify(email, password);
+		return service.verifyLogin(email, password);
 	}
 
 	public boolean createAccount(String email, String username, String password) {
-		// Incorporate business logic to create account send information to database
-		System.out.println("test from SecurityBusiness: " + email);
-		return true;
-	}
+        // You can validate the inputs here if needed
+        UserEntity user = new UserEntity(username, email, password);
+        return service.createAccount(user);
+    }
 }
