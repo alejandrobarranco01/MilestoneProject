@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gcu.data.PostsDataService;
 import com.gcu.data.entity.PostEntity;
+import com.gcu.model.PostModel;
 
 @Service
 public class PostsBusinessService implements PostsBusinessServiceInterface {
@@ -26,17 +27,17 @@ public class PostsBusinessService implements PostsBusinessServiceInterface {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			return null; 
+			return null;
 		}
 	}
 
 	@Override
-	public boolean createPost(PostEntity postEntity) {
+	public boolean createPost(PostModel postModel) {
 		try {
-			return service.createPost(postEntity);
+			return service.createPost(postModel);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false; 
+			return false;
 		}
 	}
 
@@ -46,7 +47,7 @@ public class PostsBusinessService implements PostsBusinessServiceInterface {
 			return service.deletePost(postId);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false; 
+			return false;
 		}
 	}
 }

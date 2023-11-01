@@ -22,4 +22,5 @@ public interface PostsRepository extends CrudRepository<PostEntity, Long> {
 
 	@Query("DELETE FROM POSTS WHERE POST_ID = :postId")
 	void deletePost(Long postId);
+
 }
