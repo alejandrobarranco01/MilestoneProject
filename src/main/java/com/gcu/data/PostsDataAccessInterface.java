@@ -6,7 +6,7 @@ import com.gcu.data.entity.PostEntity;
 import com.gcu.model.PostModel;
 
 public interface PostsDataAccessInterface<T> {
-	public List<PostEntity> getPosts(Long authorId);
+	public List<PostEntity> getPosts(String email);
 
 	public PostEntity getPost(Long postId);
 

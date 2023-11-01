@@ -33,10 +33,6 @@ public class PostEntity {
 	@Column("AUTHOR_USERNAME")
 	private String authorUsername;
 
-	@ManyToOne
-	@JoinColumn(name = "AUTHOR_ID", insertable = false, updatable = false)
-	private UserEntity user;
-
 	public PostEntity(Date date, String title, String text, Long authorId, String authorUsername) {
 		this.date = date;
 		this.title = title;
@@ -91,14 +87,6 @@ public class PostEntity {
 
 	public void setAuthorUsername(String authorUsername) {
 		this.authorUsername = authorUsername;
-	}
-
-	public UserEntity getUser() {
-		return user;
-	}
-
-	public void setUser(UserEntity user) {
-		this.user = user;
 	}
 
 }

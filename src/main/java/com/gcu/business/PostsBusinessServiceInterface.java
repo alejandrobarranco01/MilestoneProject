@@ -6,9 +6,9 @@ import com.gcu.data.entity.PostEntity;
 import com.gcu.model.PostModel;
 
 public interface PostsBusinessServiceInterface {
-	public List<PostEntity> getPosts(Long authorId);
+	public List<PostModel> getPosts(String email);
 
-	public PostEntity getPost(Long postId);
+	public PostModel getPost(Long postId);
 
 	public boolean createPost(PostModel postModel);
 
