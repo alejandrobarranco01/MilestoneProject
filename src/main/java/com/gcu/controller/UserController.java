@@ -26,6 +26,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gcu.business.PostsBusinessService;
 import com.gcu.model.PostModel;
 
+/**
+ * Controller class for handling user-related actions and views.
+ */
 @Controller
 @RequestMapping("/home")
 @CrossOrigin("http://localhost:8080")
@@ -40,14 +43,29 @@ public class UserController {
 	// inputed from the login or register page to maintain a "logged in" state
 	private String email;
 
+	/**
+	 * Handles GET requests for the homeSignedIn view, displaying posts for the
+	 * logged-in user.
+	 * 
+	 * @param model The model to be populated with data for the view.
+	 * @param email The email of the logged-in user.
+	 * @return The view name.
+	 */
 	@GetMapping("/homeSignedIn")
 	public String homeSignedIn(Model model, @ModelAttribute("email") String email) {
+		this.posts = postService.getPosts(email); // Retrieving and setting the posts
 		model.addAttribute("newPost", new PostModel());
 		model.addAttribute("posts", posts);
 		this.email = email; // Storing the email
 		return "home/homeSignedIn";
 	}
 
+	/**
+	 * Handles POST requests to create a new post.
+	 * 
+	 * @param newPost The new post data.
+	 * @return The redirect URL with the email in the query parameters.
+	 */
 	@PostMapping("/createPost")
 	public String createPost(PostModel newPost) {
 		// Setting the author email attribute to the post model
@@ -55,12 +73,20 @@ public class UserController {
 		// the author id and author email
 		newPost.setAuthorEmail(email);
 		postService.createPost(newPost);
-		posts.add(newPost);
-		return "redirect:/home/homeSignedIn";
+
+		// Redirect with the email in the query parameters
+		return String.format("redirect:/home/homeSignedIn?email=%s", email);
 	}
 
+	/**
+	 * Handles POST requests to delete a post by its ID.
+	 * 
+	 * @param id The ID of the post to be deleted.
+	 * @return The redirect URL with the email in the query parameters.
+	 */
 	@PostMapping("/deletePost/{id}")
 	public String deletePost(@PathVariable Long id) {
+		postService.deletePost(id);
 		Iterator<PostModel> iterator = posts.iterator();
 		while (iterator.hasNext()) {
 			PostModel post = iterator.next();
@@ -69,19 +95,33 @@ public class UserController {
 				break;
 			}
 		}
-		return "redirect:/home/homeSignedIn";
+
+		// Redirect with the email in the query parameters
+		return String.format("redirect:/home/homeSignedIn?email=%s", email);
 	}
 
+	/**
+	 * Handles POST requests to view a specific post by its ID.
+	 * 
+	 * @param id    The ID of the post to be viewed.
+	 * @param model The model to be populated with data for the view.
+	 * @return The view name.
+	 */
 	@PostMapping("/viewPost/{id}")
 	public String viewPost(@PathVariable Long id, Model model) {
-		for (PostModel post : posts) {
-			if (post.getId().equals(id)) {
-				model.addAttribute("post", post);
-				return "viewPost";
-			}
-		}
+		// Retrieve the post model from the post business service
+		PostModel post = postService.getPost(id);
 
+		// If the post is not null (meaning it exists)
+		// return the post
+		if (post != null) {
+			model.addAttribute("post", post);
+			return "viewPost";
+
+		}
+		// Otherwise display the error page
 		return "error";
+
 	}
 
 }
