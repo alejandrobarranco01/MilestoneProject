@@ -13,6 +13,7 @@ public class PostModel {
 	private Long id;
 	private String title;
 	private String text;
+	private String authorEmail;
 
 	public PostModel() {
 		this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
@@ -40,6 +41,14 @@ public class PostModel {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setAuthorEmail(String authorEmail) {
+		this.authorEmail = authorEmail;
+	}
+
+	public String getAuthorEmail() {
+		return authorEmail;
 	}
 
 }
