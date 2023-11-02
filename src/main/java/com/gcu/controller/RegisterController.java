@@ -70,10 +70,9 @@ public class RegisterController {
 		// Since we have no Security Configuration yet, we will simply pass the email
 		// as a query parameter for a "logged in" state, also to retrieve posts
 		String email = registerModel.getEmail();
-		redirectAttributes.addAttribute("email", email);
 
 		// Process registration logic and redirect to home view for signed-in users
 		model.addAttribute("message", "Test Message");
-		return "redirect:/home/homeSignedIn";
+		return String.format("redirect:/home/homeSignedIn?email=%s", email);
 	}
 }
