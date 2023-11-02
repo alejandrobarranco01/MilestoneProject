@@ -55,6 +55,7 @@ public class LoginController {
 	public String doLogin(@Valid LoginModel loginModel, BindingResult bindingResult, Model model) {
 
 		// Check for validation errors
+		// redirect to login/ if errors in login model 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("title", "Login Form");
 			return "login";
@@ -64,10 +65,23 @@ public class LoginController {
 			// Display errors in login page
 			return "login";
 		}
+<<<<<<< Updated upstream
 		
 
 		// Process login logic and redirect to home view for signed-in users
 		return "redirect:/home/homeSignedIn";
 
+=======
+
+		// Since we have no Security Configuration yet, we will simply pass the email
+		// as a query parameter for a "logged in" state, also to retrieve posts
+		String email = loginModel.getUsername();
+		
+
+		// Process login logic and redirect to home view for signed-in users
+
+		System.out.println("the thing made it to the thing");
+		return String.format("redirect:/home/homeSignedIn?email=%s", email);
+>>>>>>> Stashed changes
 	}
 }
