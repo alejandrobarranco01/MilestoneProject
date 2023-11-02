@@ -3,6 +3,8 @@
  */
 package com.gcu.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.LoginModel;
 
-import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.validation.Valid;
 
 /**
@@ -52,36 +54,26 @@ public class LoginController {
 	 *         login result.
 	 */
 	@PostMapping("/doLogin")
-	public String doLogin(@Valid LoginModel loginModel, BindingResult bindingResult, Model model) {
+	public String doLogin(@Valid LoginModel loginModel, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		// Check for validation errors
-		// redirect to login/ if errors in login model 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("title", "Login Form");
 			return "login";
 		}
-		
+
 		if (!security.authenticate(loginModel.getUsername(), loginModel.getPassword())) {
 			// Display errors in login page
 			return "login";
 		}
-<<<<<<< Updated upstream
-		
-
-		// Process login logic and redirect to home view for signed-in users
-		return "redirect:/home/homeSignedIn";
-
-=======
 
 		// Since we have no Security Configuration yet, we will simply pass the email
 		// as a query parameter for a "logged in" state, also to retrieve posts
 		String email = loginModel.getUsername();
-		
+		redirectAttributes.addAttribute("email", email);
 
 		// Process login logic and redirect to home view for signed-in users
-
-		System.out.println("the thing made it to the thing");
-		return String.format("redirect:/home/homeSignedIn?email=%s", email);
->>>>>>> Stashed changes
+		return "redirect:/home/homeSignedIn";
 	}
 }

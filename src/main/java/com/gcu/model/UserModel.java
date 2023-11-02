@@ -1,13 +1,12 @@
 package com.gcu.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import jakarta.persistence.Entity;
 
-/**
- * This model represents the attributes of a User
- * 
- * @Entity annotation used to represent table in relational database
- */
-@Entity
+
 public class UserModel {
     private long id;
     private String username;
