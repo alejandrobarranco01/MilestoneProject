@@ -15,7 +15,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	UsersDataService service;
 
 	/**
-	 * Authenticates the user based on the provided email and password.
+	 * Authenticates the user based on the provided email and password. M4
 	 * 
 	 * @param email    The email address of the user.
 	 * @param password The password associated with the user's account.
@@ -26,7 +26,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		return service.verifyLogin(email, password);
 	}
 
-	/**
+	/** Milestone 4
 	 * Creates a new user account with the provided email, username, and password.
 	 * 
 	 * @param email    The email address of the user.

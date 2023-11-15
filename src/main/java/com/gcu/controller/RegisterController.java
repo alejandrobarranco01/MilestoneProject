@@ -3,6 +3,9 @@
  */
 package com.gcu.controller;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.RegisterModel;
 
-import jakarta.validation.Valid;
 
 /**
  * Handles requests related to the user registration functionality.
@@ -54,7 +56,7 @@ public class RegisterController {
 	 */
 	@PostMapping("/doRegister")
 	public String doRegister(@Valid RegisterModel registerModel, BindingResult bindingResult, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, HttpSession session) {
 		// Check for validation errors
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("title", "Registration Form");
@@ -70,9 +72,10 @@ public class RegisterController {
 		// Since we have no Security Configuration yet, we will simply pass the email
 		// as a query parameter for a "logged in" state, also to retrieve posts
 		String email = registerModel.getEmail();
+		
+		session.setAttribute("email", registerModel.getEmail());
 
 		// Process registration logic and redirect to home view for signed-in users
-		model.addAttribute("message", "Test Message");
-		return String.format("redirect:/home/homeSignedIn?email=%s", email);
+		return "redirect:/home/homeSignedIn";
 	}
 }

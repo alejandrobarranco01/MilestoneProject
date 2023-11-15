@@ -52,11 +52,14 @@ public class UserController {
 	 * @return The view name.
 	 */
 	@GetMapping("/homeSignedIn")
-	public String homeSignedIn(Model model, @ModelAttribute("email") String email) {
+	public String homeSignedIn(Model model, HttpSession session) {
+		String email = (String) session.getAttribute("email");
+		if (email == null)
+			return "home/homeNotSignedIn";
+		this.email = email;
 		this.posts = postService.getPosts(email); // Retrieving and setting the posts
 		model.addAttribute("newPost", new PostModel());
 		model.addAttribute("posts", posts);
-		this.email = email; // Storing the email
 		return "home/homeSignedIn";
 	}
 
@@ -67,7 +70,8 @@ public class UserController {
 	 * @return The redirect URL with the email in the query parameters.
 	 */
 	@PostMapping("/createPost")
-	public String createPost(PostModel newPost) {
+	public String createPost(PostModel newPost, HttpSession session) {
+		String email = (String) session.getAttribute("email");
 		// Setting the author email attribute to the post model
 		// This will be important when we later try to query
 		// the author id and author email
@@ -75,7 +79,7 @@ public class UserController {
 		postService.createPost(newPost);
 
 		// Redirect with the email in the query parameters
-		return String.format("redirect:/home/homeSignedIn?email=%s", email);
+		return "redirect:/home/homeSignedIn";
 	}
 
 	/**
@@ -86,6 +90,8 @@ public class UserController {
 	 */
 	@PostMapping("/deletePost/{id}")
 	public String deletePost(@PathVariable Long id) {
+		if (email == null)
+			return "home/homeNotSignedIn";
 		postService.deletePost(id);
 		Iterator<PostModel> iterator = posts.iterator();
 		while (iterator.hasNext()) {
@@ -97,7 +103,7 @@ public class UserController {
 		}
 
 		// Redirect with the email in the query parameters
-		return String.format("redirect:/home/homeSignedIn?email=%s", email);
+		return "redirect:/home/homeSignedIn";
 	}
 
 	/**
@@ -109,6 +115,8 @@ public class UserController {
 	 */
 	@PostMapping("/viewPost/{id}")
 	public String viewPost(@PathVariable Long id, Model model) {
+		if (email == null)
+			return "home/homeNotSignedIn";
 		// Retrieve the post model from the post business service
 		PostModel post = postService.getPost(id);
 
@@ -121,7 +129,5 @@ public class UserController {
 		}
 		// Otherwise display the error page
 		return "error";
-
 	}
-
 }
