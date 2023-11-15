@@ -6,6 +6,10 @@ package com.gcu.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,8 +50,12 @@ public class MainController {
 	 *         signed in.
 	 */
 	@GetMapping("/signout")
-	public ModelAndView signout() {
-		// Redirect to homeNotSignedIn.html
+	public ModelAndView signout(HttpServletRequest request, HttpServletResponse response) {
+		// Invalidate the session details
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
 		return new ModelAndView("home/homeNotSignedIn");
 	}
 }
