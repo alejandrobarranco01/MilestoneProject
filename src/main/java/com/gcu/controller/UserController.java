@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gcu.business.PostsBusinessService;
+import com.gcu.data.entity.UserEntity;
 import com.gcu.model.PostModel;
 
 /**

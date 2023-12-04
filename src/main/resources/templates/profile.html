@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User Profile</title>
+	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="icon" th:href="@{/images/favicon.png}" type="image/png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/home/homeSignedIn">
+			<img th:src="@{/images/logo.png}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+			Y
+		</a>
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/signout}">Sign Out</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container mt-5">
+		<!-- Profile Container -->
+		<div class="card">
+			<div class="card-body">
+				<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
+
+				
+
+				
+				<!-- Post container for displaying posts -->
+				<div id="postsContainer">
+					<div th:each="post : ${posts}">
+						<h2>Title: <span th:text="${post.title}"></span></h2>
+						<p>Post: <span th:text="${post.text}"></span></p>
+
+						<!-- Button container just to put them side by side -->
+						<div class="d-flex">
+							<form th:action="@{'/home/viewPost/' + ${post.id}}" method="post" class="mr-2">
+								<button type="submit" class="btn btn-primary">View</button>
+							</form>
+							<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
