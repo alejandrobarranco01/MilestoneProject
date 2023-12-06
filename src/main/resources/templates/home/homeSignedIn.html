@@ -128,7 +128,10 @@
 							<p><span th:text="${post.text}"></span></p>
 							<!-- Show an additional field when post authorEmail is not equal to the logged-in user's username -->
 							<div th:unless="${post.authorEmail == username}">
-								<p>Author: <span th:text="${post.authorEmail}"></span></p>
+								<p>Author:
+									<a th:href="@{'/profile/user/' + ${post.authorId}}"><span
+											th:text="${post.authorEmail}"></span></a>
+								</p>
 							</div>
 							<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
 

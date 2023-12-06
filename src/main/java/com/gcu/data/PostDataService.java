@@ -44,13 +44,13 @@ public class PostDataService implements PostDataAccessInterface<PostEntity> {
 	@Override
 	public List<PostEntity> getPosts(String email) {
 		Long authorId = usersRepository.getAuthorIdFromEmail(email);
-		return postRepository.getFeed(authorId);
+		return postRepository.getPostsByAuthorId(authorId);
 	}
 	
 	@Override
 	public List<PostEntity> getFeed(String email) {
 		Long authorId = usersRepository.getAuthorIdFromEmail(email);
-		return postRepository.getPostsByAuthorId(authorId);
+		return postRepository.getFeed(authorId);
 	}
 
 	/**

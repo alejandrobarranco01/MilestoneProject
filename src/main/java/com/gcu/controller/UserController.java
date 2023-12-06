@@ -57,7 +57,7 @@ public class UserController {
 			return "home/homeNotSignedIn";
 
 		this.email = email;
-		this.feed = postBusinessService.getPosts(email);
+		this.feed = postBusinessService.getFeed(email);
 		this.username = userRepository.getAuthorUsernameFromEmail(email);
 
 		model.addAttribute("newPost", new PostModel());

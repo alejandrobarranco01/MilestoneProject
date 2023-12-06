@@ -115,7 +115,8 @@ public class ProfileController {
 	}
 
 	@GetMapping("/user/{id}")
-	public String viewOtherProfile(@PathVariable Long id, Model model) {
+	public String viewOtherProfile(@PathVariable Long id, Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
 		String otherUserEmail = usersRepository.getAuthorEmailFromId(id);
 		if (otherUserEmail == null)
 			return "error";
@@ -172,15 +173,29 @@ public class ProfileController {
 	}
 
 	@PostMapping("/settings/changeUsername")
-	public String changeUsername(@RequestParam String newUsername, Model model) {
+	public String changeUsername(@RequestParam String newUsername, @RequestParam String newUsernameConfirm, Model model,
+			HttpSession session) {
+		this.email = (String) session.getAttribute("email");
 
-		if (usersDataService.userExists(null, newUsername))
-			return "redirect:/profile/settings";
+		String currentUsername = usersRepository.getAuthorUsernameFromEmail(email);
 
-		else {
-			usersDataService.updateUserUsername(email, newUsername);
-			return "redirect:/profile";
+		if (!newUsername.equalsIgnoreCase(newUsernameConfirm)) {
+			model.addAttribute("error", "Usernames are not matching!");
+			return "settings";
+		} else if (newUsername.equals(currentUsername)) {
+			model.addAttribute("error", "This is already your username!");
+			return "settings";
+		} else if (usersDataService.userExists(newUsername, null)) {
+			model.addAttribute("error", "Username already in use!");
+			return "settings";
+		} else {
+			Boolean success = usersDataService.updateUserUsername(email, newUsername);
+			if (success)
+				model.addAttribute("success", "Username changed successfully!");
+			else
+				model.addAttribute("error", "There has been an unexpected error!");
 		}
+		return "settings";
 	}
 
 }

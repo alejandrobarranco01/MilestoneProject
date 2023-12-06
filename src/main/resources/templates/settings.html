@@ -79,9 +79,13 @@
 									Change Username
 								</button>
 								<div class="collapse mr-2" id="changeUsernameFields">
-									<input type="text" class="form-control mb-2" placeholder="New Username">
-									<input type="text" class="form-control mb-2" placeholder="Confirm New Username">
-									<button type="button" class="btn btn-success">Submit</button>
+									<form th:action="@{/profile/settings/changeUsername}" method="post">
+										<input type="text" class="form-control mb-2" placeholder="New Username"
+											name="newUsername">
+										<input type="text" class="form-control mb-2" placeholder="Confirm New Username"
+											name="newUsernameConfirm">
+										<button type="submit" class="btn btn-success">Submit</button>
+									</form>
 								</div>
 								<button class="btn btn-secondary mr-2" data-toggle="collapse"
 									href="#changePasswordFields" role="button" aria-expanded="false"
@@ -94,9 +98,8 @@
 									<input type="text" class="form-control mb-2" placeholder="Confirm New Password">
 									<button type="button" class="btn btn-success">Submit</button>
 								</div>
-								<button class="btn btn-danger mr-2" data-toggle="collapse"
-									href="#deleteAccountFields" role="button" aria-expanded="false"
-									aria-controls="deleteAccountFields">
+								<button class="btn btn-danger mr-2" data-toggle="collapse" href="#deleteAccountFields"
+									role="button" aria-expanded="false" aria-controls="deleteAccountFields">
 									Delete Account
 								</button>
 								<div class="collapse mr-2" id="deleteAccountFields">
@@ -104,7 +107,16 @@
 								</div>
 							</div>
 							<hr>
+							<!-- Display error messages with username change if they exist -->
+							<div th:if="${error}" class="text-danger mt-2">
+								<p th:text="${error}"></p>
+							</div>
 
+							<!-- Display success message wuth username change if it exists -->
+							<div th:if="${success}" class="text-success mt-2">
+								<p th:text="${success}"></p>
+							</div>
+							<hr>
 						</div>
 					</div>
 				</div>

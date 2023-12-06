@@ -62,13 +62,13 @@ public class RegisterController {
 			return "register";
 		}
 
-		if (!securityBusinessService.createAccount(registerModel.getEmail(), registerModel.getUsername(),
+		if (!securityBusinessService.createAccount(registerModel.getEmail().toLowerCase(), registerModel.getUsername().toLowerCase(),
 				registerModel.getPassword())) {
 			// If there's any errors in creating the account display message
 			return "register";
 		}
 
-		session.setAttribute("email", registerModel.getEmail());
+		session.setAttribute("email", registerModel.getEmail().toLowerCase());
 
 		// Process registration logic and redirect to home view for signed-in users
 		return "redirect:/home/homeSignedIn";

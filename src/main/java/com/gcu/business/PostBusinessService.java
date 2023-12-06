@@ -56,17 +56,19 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);
 
+			postModel.setAuthorId(postEntity.getAuthorId());
+
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
+
 		}
 		return postModels;
 	}
-	
+
 	@Override
 	public List<PostModel> getFeed(String email) {
 		List<PostEntity> postEntities = postDataservice.getFeed(email);
-		
-		
+
 		List<PostModel> postModels = new ArrayList<>();
 
 		for (PostEntity postEntity : postEntities) {
@@ -78,6 +80,8 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			String sqlDate = postEntity.getDate().toString();
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);
+
+			postModel.setAuthorId(postEntity.getAuthorId());
 
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
@@ -106,6 +110,8 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			String sqlDate = postEntity.getDate().toString();
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);
+
+			postModel.setAuthorId(postEntity.getAuthorId());
 
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			return postModel;
@@ -174,6 +180,7 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			postModel.setId(postEntity.getPostId());
 			postModel.setTitle(postEntity.getTitle());
 			postModel.setText(postEntity.getText());
+			postModel.setAuthorId(postEntity.getAuthorId());
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
 		}
