@@ -105,7 +105,9 @@
 									Delete Account
 								</button>
 								<div class="collapse mr-2" id="deleteAccountFields">
-									<button type="button" class="btn btn-danger">Confirm</button>
+									<form th:action="@{/profile/settings/deleteAccount}" method="post">
+									<button type="submit" class="btn btn-danger">Confirm</button>
+									</form>
 								</div>
 							</div>
 							<hr>

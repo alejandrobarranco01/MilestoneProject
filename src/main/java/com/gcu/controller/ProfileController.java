@@ -197,10 +197,10 @@ public class ProfileController {
 		}
 		return "settings";
 	}
-	
+
 	@PostMapping("/settings/changePassword")
-	public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String newPasswordConfirm, Model model,
-			HttpSession session) {
+	public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword,
+			@RequestParam String newPasswordConfirm, Model model, HttpSession session) {
 		this.email = (String) session.getAttribute("email");
 
 		String currentPasswordInDatabase = usersRepository.getUserPasswordFromEmail(email);
@@ -214,8 +214,7 @@ public class ProfileController {
 		} else if (newPassword.equals(currentPasswordInDatabase)) {
 			model.addAttribute("error", "This is not a new password!");
 			return "settings";
-		}
-		else {
+		} else {
 			Boolean success = usersDataService.updateUserPassword(email, newPassword);
 			if (success)
 				model.addAttribute("success", "Password changed successfully!");
@@ -223,6 +222,25 @@ public class ProfileController {
 				model.addAttribute("error", "There has been an unexpected error!");
 		}
 		return "settings";
+	}
+
+	@PostMapping("/settings/deleteAccount")
+	public String deleteAccount(Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+		Long userId = usersRepository.getAuthorIdFromEmail(email);
+		
+		// Must delete all places where the user id is a foreign key
+		usersRepository.deleteFollows(userId);
+		usersRepository.deleteAllUserPostsByAuthorId(userId);
+
+		boolean accountDeleted = usersRepository.deleteUserById(userId);
+
+		if (!accountDeleted) {
+			model.addAttribute("error", "There has been an unexpected error!");
+			return "settings";
+		} else {
+			return "redirect:/signout";
+		}
 	}
 
 }

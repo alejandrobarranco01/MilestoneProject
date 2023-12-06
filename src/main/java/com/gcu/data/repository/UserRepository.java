@@ -45,4 +45,19 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
 	@Query("SELECT PASSWORD FROM USERS WHERE EMAIL = :email")
 	public String getUserPasswordFromEmail(String email);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM USERS WHERE ID = :userId")
+	boolean deleteUserById(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM POSTS WHERE AUTHOR_ID = :userId")
+	void deleteAllUserPostsByAuthorId(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM FOLLOWS WHERE FOLLOWER_ID = :userId OR FOLLOWED_ID = :userId")
+	void deleteFollows(Long userId);
 }

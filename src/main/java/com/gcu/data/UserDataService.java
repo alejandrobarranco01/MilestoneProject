@@ -93,7 +93,6 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	}
 
 	public boolean updateUserPassword(String email, String newPassword) {
-
 		String sql = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newPassword, email);
 		return rowsAffected > 0;
