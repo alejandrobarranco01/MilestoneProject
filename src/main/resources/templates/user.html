@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>View Post</title>
+	<title>User Profile</title>
 	<link rel="stylesheet" href="/css/styles.css">
 	<link rel="icon" th:href="@{/images/favicon.png}" type="image/png">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -29,19 +29,34 @@
 		</div>
 	</nav>
 
-
-
 	<div class="container mt-5">
-		<!-- Post Container -->
+		<!-- Profile Container -->
 		<div class="card">
 			<div class="card-body">
-				<h2 class="card-title" th:text="${post.title}"></h2>
-				<p class="card-text" th:text="${post.text}"></p>
-				<h6 class="card-text" style="font-size: 14px;" th:text="${post.date}"></h6>
+				<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
+
+				<hr class="my-4">
+
+
+				<!-- Post container for displaying posts -->
+				<div id="postsContainer">
+					<div th:each="post : ${posts}">
+						<h2><span th:text="${post.title}"></span></h2>
+						<p><span th:text="${post.text}"></span></p>
+						<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
+
+						<!-- Button container just to put them side by side -->
+						<div class="d-flex">
+							<form th:action="@{'/profile/user/viewPost/' + ${post.id}}" method="post" class="mr-2">
+								<button type="submit" class="btn btn-primary">View</button>
+							</form>
+						</div>
+						<hr>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-
 
 </body>
 

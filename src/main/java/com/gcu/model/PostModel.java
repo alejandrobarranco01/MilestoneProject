@@ -3,8 +3,6 @@ package com.gcu.model;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -14,6 +12,7 @@ public class PostModel {
 	private String title;
 	private String text;
 	private String authorEmail;
+	private String date;
 
 	public PostModel() {
 		this.id = ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE);
@@ -50,7 +49,13 @@ public class PostModel {
 	public String getAuthorEmail() {
 		return authorEmail;
 	}
-	
-	
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getDate() {
+		return date;
+	}
 
 }

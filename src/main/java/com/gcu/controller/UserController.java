@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gcu.business.PostBusinessService;
+import com.gcu.data.repository.UserRepository;
 import com.gcu.model.PostModel;
 
 /**
@@ -30,9 +32,13 @@ public class UserController {
 	@Autowired
 	PostBusinessService postBusinessService;
 
+	@Autowired
+	UserRepository userRepository;
+
 	private List<PostModel> posts = new ArrayList<>();
 
 	private String email;
+	private String username;
 
 	/**
 	 * Handles the GET request to "/home/homeSignedIn" and displays the home page
@@ -49,10 +55,14 @@ public class UserController {
 		String email = (String) session.getAttribute("email");
 		if (email == null)
 			return "home/homeNotSignedIn";
+
 		this.email = email;
 		this.posts = postBusinessService.getPosts(email);
+		this.username = userRepository.getAuthorUsernameFromEmail(email);
+
 		model.addAttribute("newPost", new PostModel());
 		model.addAttribute("posts", posts);
+		model.addAttribute("username", username);
 		return "home/homeSignedIn";
 	}
 
@@ -122,4 +132,17 @@ public class UserController {
 		}
 		return "error";
 	}
+
+	@PostMapping("/search")
+	public String searchUsers(@RequestParam String query, Model model) {
+		Long userId = userRepository.findUsernamesContaining(query);
+		if (userId == null) {
+			return "redirect:/home/homeSignedIn";
+		} else if (userId == userRepository.getAuthorIdFromEmail(email)) {
+			return "redirect:/profile";
+		} else {
+			return "redirect:/profile/user/" + userId;
+		}
+	}
+
 }

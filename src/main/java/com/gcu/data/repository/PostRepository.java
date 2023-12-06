@@ -13,7 +13,7 @@ import com.gcu.data.entity.PostEntity;
 @Repository
 public interface PostRepository extends CrudRepository<PostEntity, Long> {
 
-	@Query("SELECT * FROM POSTS WHERE AUTHOR_ID = :authorId")
+	@Query("SELECT * FROM POSTS WHERE AUTHOR_ID = :authorId ORDER BY DATE DESC")
 	List<PostEntity> getPostsByAuthorId(Long authorId);
 
 	@Query("SELECT * FROM POSTS WHERE POST_ID = :postId")
