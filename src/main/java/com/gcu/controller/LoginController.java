@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gcu.business.PostsBusinessService;
+import com.gcu.business.PostBusinessService;
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.LoginModel;
 import com.gcu.model.PostModel;
@@ -33,7 +33,7 @@ public class LoginController {
 	private SecurityBusinessService security;
 
 	@Autowired
-	PostsBusinessService postService;
+	PostBusinessService postService;
 
 	/**
 	 * Displays the login form view and populates the model with necessary
