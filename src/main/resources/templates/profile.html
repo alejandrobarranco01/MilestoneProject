@@ -31,67 +31,67 @@
 		</div>
 	</nav>
 
-	<div class="container mt-5">
 
-		<!-- Profile Container -->
-		<div class="container-fluid">
-			<div class="row">
 
-				<!-- Sidebar -->
-				<nav id="sidebar" class="col-2 md-block bg-light sidebar">
-					<div class="position-sticky">
-						<button th:action="@{/home/homeSignedIn}" class="btn btn-light btn-sm rounded-circle d-block mb-2"
-							data-toggle="tooltip" data-placement="right" title="Home" onclick="window.location.href='/home/homeSignedIn'">
-							<i class="bi bi-house-door" style="font-size: 20px;"></i>
-						</button>
+	<!-- Profile Container -->
+	<div class="container-fluid">
+		<div class="row">
 
-						<button th:action="@{home/viewProfile}"
-							class="btn btn-light btn-sm btn-secondary rounded-circle d-block mb-2" data-toggle="tooltip"
-							data-placement="right" title="Profile" onclick="window.location.href='/profile'">
-							<i class="bi bi-person" style="font-size: 20px;"></i>
-						</button>
+			<!-- Sidebar -->
+			<nav id="sidebar" class="col-2 md-block bg-light sidebar">
+				<div class="position-sticky">
+					<button th:action="@{/home/homeSignedIn}" class="btn btn-light btn-sm rounded-circle d-block mb-2"
+						data-toggle="tooltip" data-placement="right" title="Home"
+						onclick="window.location.href='/home/homeSignedIn'">
+						<i class="bi bi-house-door" style="font-size: 20px;"></i>
+					</button>
 
-						<button class="btn btn-light btn-sm rounded-circle d-block mb-2" data-toggle="tooltip"
-							data-placement="right" title="Settings" onclick="window.location.href='/profile/settings'">
-							<i class="bi bi-gear" style="font-size: 20px;"></i>
-						</button>
-					</div>
-				</nav>
+					<button th:action="@{home/viewProfile}"
+						class="btn btn-light btn-sm btn-secondary rounded-circle d-block mb-2" data-toggle="tooltip"
+						data-placement="right" title="Profile" onclick="window.location.href='/profile'">
+						<i class="bi bi-person" style="font-size: 20px;"></i>
+					</button>
 
-				<!-- Feed Container -->
-				<main class="col-md-10 col-lg-10 col-sm-10 px-md-3">
-					<!-- Your existing profile content goes here -->
-					<div class="card">
-						<div class="card-body">
-							<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
+					<button class="btn btn-light btn-sm rounded-circle d-block mb-2" data-toggle="tooltip"
+						data-placement="right" title="Settings" onclick="window.location.href='/profile/settings'">
+						<i class="bi bi-gear" style="font-size: 20px;"></i>
+					</button>
+				</div>
+			</nav>
 
-							<hr class="my-4">
+			<!-- Feed Container -->
+			<main class="col-md-10 col-lg-10 col-sm-10 px-md-3">
+				<!-- Your existing profile content goes here -->
+				<div class="card">
+					<div class="card-body">
+						<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
 
-							<!-- Post container for displaying posts -->
-							<div id="postsContainer">
-								<div th:each="post : ${posts}">
-									<h2><span th:text="${post.title}"></span></h2>
-									<p><span th:text="${post.text}"></span></p>
-									<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
+						<hr class="my-4">
 
-									<!-- Button container just to put them side by side -->
-									<div class="d-flex">
-										<form th:action="@{'/profile/viewPost/' + ${post.id}}" method="post"
-											class="mr-2">
-											<button type="submit" class="btn btn-primary">View</button>
-										</form>
-										<form th:action="@{'/profile/deletePost/' + ${post.id}}" method="post">
-											<button type="submit" class="btn btn-danger">Delete</button>
-										</form>
-									</div>
-									<hr>
+						<!-- Post container for displaying posts -->
+						<div id="postsContainer">
+							<div th:each="post : ${posts}">
+								<h2><span th:text="${post.title}"></span></h2>
+								<p><span th:text="${post.text}"></span></p>
+								<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
+
+								<!-- Button container just to put them side by side -->
+								<div class="d-flex">
+									<form th:action="@{'/profile/viewPost/' + ${post.id}}" method="post" class="mr-2">
+										<button type="submit" class="btn btn-primary">View</button>
+									</form>
+									<form th:action="@{'/profile/deletePost/' + ${post.id}}" method="post">
+										<button type="submit" class="btn btn-danger">Delete</button>
+									</form>
 								</div>
+								<hr>
 							</div>
 						</div>
 					</div>
-				</main>
-			</div>
+				</div>
+			</main>
 		</div>
+
 </body>
 
 </html>
