@@ -86,9 +86,16 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	}
 
 	public boolean updateUserUsername(String email, String newUsername) {
-		
+
 		String sql = "UPDATE USERS SET USERNAME = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newUsername, email);
+		return rowsAffected > 0;
+	}
+
+	public boolean updateUserPassword(String email, String newPassword) {
+
+		String sql = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
+		int rowsAffected = jdbcTemplateObject.update(sql, newPassword, email);
 		return rowsAffected > 0;
 	}
 

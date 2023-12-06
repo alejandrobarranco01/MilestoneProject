@@ -197,5 +197,32 @@ public class ProfileController {
 		}
 		return "settings";
 	}
+	
+	@PostMapping("/settings/changePassword")
+	public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String newPasswordConfirm, Model model,
+			HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+
+		String currentPasswordInDatabase = usersRepository.getUserPasswordFromEmail(email);
+
+		if (!currentPassword.equals(currentPasswordInDatabase)) {
+			model.addAttribute("error", "Incorrect password!");
+			return "settings";
+		} else if (!newPassword.equals(newPasswordConfirm)) {
+			model.addAttribute("error", "Passwords are not matching!");
+			return "settings";
+		} else if (newPassword.equals(currentPasswordInDatabase)) {
+			model.addAttribute("error", "This is not a new password!");
+			return "settings";
+		}
+		else {
+			Boolean success = usersDataService.updateUserPassword(email, newPassword);
+			if (success)
+				model.addAttribute("success", "Password changed successfully!");
+			else
+				model.addAttribute("error", "There has been an unexpected error!");
+		}
+		return "settings";
+	}
 
 }
