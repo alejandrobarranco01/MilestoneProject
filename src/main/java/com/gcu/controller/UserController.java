@@ -5,52 +5,44 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gcu.business.PostsBusinessService;
-import com.gcu.data.entity.UserEntity;
+import com.gcu.business.PostBusinessService;
 import com.gcu.model.PostModel;
 
 /**
- * Controller class for handling user-related actions and views.
+ * Controller class responsible for handling user-related requests and managing
+ * the user interface. This class is part of the Spring MVC framework and
+ * manages interactions related to user posts.
  */
 @Controller
 @RequestMapping("/home")
 @CrossOrigin("http://localhost:8080")
 public class UserController {
 	@Autowired
-	PostsBusinessService postService;
+	PostBusinessService postBusinessService;
 
-	// Will retrieve the posts specific to each user and store them here
 	private List<PostModel> posts = new ArrayList<>();
 
-	// Since we are not yet using Spring Configuration, we will store the email
-	// inputed from the login or register page to maintain a "logged in" state
 	private String email;
 
 	/**
-	 * Handles GET requests for the homeSignedIn view, displaying posts for the
-	 * logged-in user.
-	 * 
-	 * @param model The model to be populated with data for the view.
-	 * @param email The email of the logged-in user.
-	 * @return The view name.
+	 * Handles the GET request to "/home/homeSignedIn" and displays the home page
+	 * for a signed-in user. If for some reason the email tied to the session is
+	 * null, the "home/homeNotSignedIn" page is displayed instead.
+	 *
+	 * @param model   The model to convey data to the view.
+	 * @param session The HttpSession object for managing user sessions.
+	 * @return The view name for the signed-in home page or "home/homeNotSignedIn"
+	 *         if the user is not signed in.
 	 */
 	@GetMapping("/homeSignedIn")
 	public String homeSignedIn(Model model, HttpSession session) {
@@ -58,42 +50,44 @@ public class UserController {
 		if (email == null)
 			return "home/homeNotSignedIn";
 		this.email = email;
-		this.posts = postService.getPosts(email); // Retrieving and setting the posts
+		this.posts = postBusinessService.getPosts(email);
 		model.addAttribute("newPost", new PostModel());
 		model.addAttribute("posts", posts);
 		return "home/homeSignedIn";
 	}
 
 	/**
-	 * Handles POST requests to create a new post.
-	 * 
-	 * @param newPost The new post data.
-	 * @return The redirect URL with the email in the query parameters.
+	 * Handles the POST request to "/home/createPost" and creates a new post for the
+	 * user. It sends the new post data to the next layer in the application design,
+	 * the Post Business Service.
+	 *
+	 * @param newPost The new post to be created.
+	 * @param session The HttpSession object for managing user sessions.
+	 * @return Redirects to the signed-in home page after creating the post.
 	 */
 	@PostMapping("/createPost")
 	public String createPost(PostModel newPost, HttpSession session) {
 		String email = (String) session.getAttribute("email");
-		// Setting the author email attribute to the post model
-		// This will be important when we later try to query
-		// the author id and author email
-		newPost.setAuthorEmail(email);
-		postService.createPost(newPost);
 
-		// Redirect with the email in the query parameters
+		newPost.setAuthorEmail(email);
+		postBusinessService.createPost(newPost);
+
 		return "redirect:/home/homeSignedIn";
 	}
 
 	/**
-	 * Handles POST requests to delete a post by its ID.
-	 * 
+	 * Handles the POST request to "/home/deletePost/{id}" and deletes a post with
+	 * the specified ID. It sends the post ID to the next layer in the application
+	 * design, the Post Business Service.
+	 *
 	 * @param id The ID of the post to be deleted.
-	 * @return The redirect URL with the email in the query parameters.
+	 * @return Redirects to the signed-in home page after deleting the post.
 	 */
 	@PostMapping("/deletePost/{id}")
 	public String deletePost(@PathVariable Long id) {
 		if (email == null)
 			return "home/homeNotSignedIn";
-		postService.deletePost(id);
+		postBusinessService.deletePost(id);
 		Iterator<PostModel> iterator = posts.iterator();
 		while (iterator.hasNext()) {
 			PostModel post = iterator.next();
@@ -103,32 +97,29 @@ public class UserController {
 			}
 		}
 
-		// Redirect with the email in the query parameters
 		return "redirect:/home/homeSignedIn";
 	}
 
 	/**
-	 * Handles POST requests to view a specific post by its ID.
-	 * 
+	 * Handles the POST request to "/home/viewPost/{id}" and displays details of a
+	 * post with the specified ID.
+	 *
 	 * @param id    The ID of the post to be viewed.
-	 * @param model The model to be populated with data for the view.
-	 * @return The view name.
+	 * @param model The model to convey data to the view.
+	 * @return The view name for viewing the post or "error" if the user is not
+	 *         signed in or the post is not found.
 	 */
 	@PostMapping("/viewPost/{id}")
 	public String viewPost(@PathVariable Long id, Model model) {
 		if (email == null)
 			return "home/homeNotSignedIn";
-		// Retrieve the post model from the post business service
-		PostModel post = postService.getPost(id);
+		PostModel post = postBusinessService.getPost(id);
 
-		// If the post is not null (meaning it exists)
-		// return the post
 		if (post != null) {
 			model.addAttribute("post", post);
 			return "viewPost";
 
 		}
-		// Otherwise display the error page
 		return "error";
 	}
 }

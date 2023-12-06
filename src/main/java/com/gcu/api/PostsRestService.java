@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gcu.business.PostsBusinessService;
+import com.gcu.business.PostBusinessService;
 import com.gcu.model.PostModel;
 import com.gcu.model.PostsList;
 
@@ -17,7 +17,7 @@ import com.gcu.model.PostsList;
 public class PostsRestService {
 
 	@Autowired
-	PostsBusinessService postService;
+	PostBusinessService postService;
 
 	@GetMapping(path = "/getjson", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<PostModel> getOrdersAsJson() {

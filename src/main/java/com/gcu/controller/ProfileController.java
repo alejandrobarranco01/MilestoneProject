@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gcu.business.PostsBusinessService;
+import com.gcu.business.PostBusinessService;
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.data.UsersDataService;
 import com.gcu.data.repository.UsersRepository;
@@ -23,7 +23,7 @@ import com.gcu.model.PostModel;
 @CrossOrigin("http://localhost:8080")
 public class ProfileController {
 	@Autowired
-	PostsBusinessService postService;
+	PostBusinessService postService;
 
 	@Autowired
 	UsersDataService usersDataService;

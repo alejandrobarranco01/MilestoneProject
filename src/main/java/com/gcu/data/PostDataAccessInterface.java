@@ -3,14 +3,13 @@ package com.gcu.data;
 import java.util.List;
 
 import com.gcu.data.entity.PostEntity;
-import com.gcu.model.PostModel;
 
 /**
  * The interface for data access operations related to posts.
  *
  * @param <T> The type of object representing post data (e.g., PostModel).
  */
-public interface PostsDataAccessInterface<T> {
+public interface PostDataAccessInterface<T> {
 	/**
 	 * Retrieves a list of posts associated with the given email address.
 	 *
@@ -34,7 +33,7 @@ public interface PostsDataAccessInterface<T> {
 	 * @return {@code true} if the post creation is successful, {@code false}
 	 *         otherwise.
 	 */
-	public boolean createPost(PostModel postModel);
+	public boolean createPost(PostEntity newPost);
 
 	/**
 	 * Deletes a post with the specified ID.
@@ -44,7 +43,7 @@ public interface PostsDataAccessInterface<T> {
 	 *         otherwise.
 	 */
 	public boolean deletePost(Long postId);
-	
+
 	public List<PostEntity> getAllPosts();
 
 }
