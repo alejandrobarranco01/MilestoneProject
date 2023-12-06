@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.RegisterModel;
 
-
 /**
  * Handles requests related to the user registration functionality.
  */
@@ -26,7 +25,7 @@ import com.gcu.model.RegisterModel;
 @RequestMapping("/register")
 public class RegisterController {
 	@Autowired
-	private SecurityBusinessService security;
+	private SecurityBusinessService securityBusinessService;
 
 	/**
 	 * Displays the registration form view and populates the model with necessary
@@ -63,16 +62,12 @@ public class RegisterController {
 			return "register";
 		}
 
-		if (!security.createAccount(registerModel.getEmail(), registerModel.getUsername(),
+		if (!securityBusinessService.createAccount(registerModel.getEmail(), registerModel.getUsername(),
 				registerModel.getPassword())) {
 			// If there's any errors in creating the account display message
 			return "register";
 		}
 
-		// Since we have no Security Configuration yet, we will simply pass the email
-		// as a query parameter for a "logged in" state, also to retrieve posts
-		String email = registerModel.getEmail();
-		
 		session.setAttribute("email", registerModel.getEmail());
 
 		// Process registration logic and redirect to home view for signed-in users

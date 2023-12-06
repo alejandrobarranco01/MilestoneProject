@@ -46,10 +46,10 @@
 
 						<!-- Button container just to put them side by side -->
 						<div class="d-flex">
-							<form th:action="@{'/home/viewPost/' + ${post.id}}" method="post" class="mr-2">
+							<form th:action="@{'/profile/viewPost/' + ${post.id}}" method="post" class="mr-2">
 								<button type="submit" class="btn btn-primary">View</button>
 							</form>
-							<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
+							<form th:action="@{'/profile/deletePost/' + ${post.id}}" method="post">
 								<button type="submit" class="btn btn-danger">Delete</button>
 							</form>
 						</div>

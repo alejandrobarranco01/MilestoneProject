@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gcu.data.PostDataService;
 import com.gcu.data.entity.PostEntity;
-import com.gcu.data.repository.UsersRepository;
+import com.gcu.data.repository.UserRepository;
 import com.gcu.model.PostModel;
 
 /**
@@ -27,7 +27,7 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 	PostDataService postDataservice;
 
 	@Autowired
-	private UsersRepository usersRepository;
+	private UserRepository usersRepository;
 
 	/**
 	 * Retrieves a list of PostModel objects associated with the given user email.

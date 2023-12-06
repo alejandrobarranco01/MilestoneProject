@@ -3,9 +3,6 @@
  */
 package com.gcu.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -21,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.gcu.business.PostBusinessService;
 import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.LoginModel;
-import com.gcu.model.PostModel;
 
 /**
  * Handles requests related to the login functionality.
@@ -30,7 +26,7 @@ import com.gcu.model.PostModel;
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
-	private SecurityBusinessService security;
+	private SecurityBusinessService securityBusinessService;
 
 	@Autowired
 	PostBusinessService postService;
@@ -70,14 +66,10 @@ public class LoginController {
 			return "login";
 		}
 		// Milestone 4
-		if (!security.authenticate(loginModel.getUsername(), loginModel.getPassword())) {
+		if (!securityBusinessService.authenticate(loginModel.getUsername(), loginModel.getPassword())) {
 			// Display errors in login page
 			return "login";
 		}
-
-		// Since we have no Security Configuration yet, we will simply pass the email
-		// as a query parameter for a "logged in" state, also to retrieve posts
-		String email = loginModel.getUsername();
 
 		session.setAttribute("email", loginModel.getUsername());
 
