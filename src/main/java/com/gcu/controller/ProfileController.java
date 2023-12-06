@@ -123,11 +123,22 @@ public class ProfileController {
 
 		String otherUserUsername = usersRepository.getAuthorUsernameFromId(id);
 
+		Boolean isFollowed = usersRepository.isFollowed(usersRepository.getAuthorIdFromEmail(email), id);
+
+		String isFollowedAttribute;
+
+		if (isFollowed)
+			isFollowedAttribute = "Following";
+		else
+			isFollowedAttribute = "Follow";
+
+		model.addAttribute("isFollowed", isFollowedAttribute);
 		model.addAttribute("posts", otherUserPosts);
 		model.addAttribute("username", otherUserUsername);
+		model.addAttribute("userId", id);
 		return "user";
 	}
-	
+
 	@PostMapping("/user/viewPost/{id}")
 	public String viewOtherUserPost(@PathVariable Long id, Model model) {
 		PostModel post = postBusinessService.getPost(id);
@@ -139,22 +150,39 @@ public class ProfileController {
 		}
 		return "error";
 	}
-	
-	@GetMapping("/settings") 
+
+	@PostMapping("/user/{userId}/followOrUnfollow")
+	public String followOrUnfollow(@PathVariable Long userId, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+		
+		boolean isFollowed = usersRepository.isFollowed(usersRepository.getAuthorIdFromEmail(email), userId);
+
+		System.out.println(isFollowed);
+
+		if (isFollowed) {
+			usersRepository.unfollow(usersRepository.getAuthorIdFromEmail(email), userId);
+		} else {
+			usersRepository.follow(usersRepository.getAuthorIdFromEmail(email), userId);
+		}
+
+		return "redirect:/profile/user/" + userId;
+	}
+
+	@GetMapping("/settings")
 	public String getSettings() {
 		return "settings";
 	}
-	@PostMapping("/settings/changeUsername")
-    public String changeUsername(@RequestParam String newUsername, Model model) {
-        
-        if (usersDataService.userExists(null, newUsername)) return "redirect:/profile/settings";
-        
-        else {
-        	usersDataService.updateUserUsername(email, newUsername);
-        	return "redirect:/profile";
-        }        
-    }
 
-    
+	@PostMapping("/settings/changeUsername")
+	public String changeUsername(@RequestParam String newUsername, Model model) {
+
+		if (usersDataService.userExists(null, newUsername))
+			return "redirect:/profile/settings";
+
+		else {
+			usersDataService.updateUserUsername(email, newUsername);
+			return "redirect:/profile";
+		}
+	}
 
 }
