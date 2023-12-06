@@ -61,6 +61,29 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 		}
 		return postModels;
 	}
+	
+	@Override
+	public List<PostModel> getFeed(String email) {
+		List<PostEntity> postEntities = postDataservice.getFeed(email);
+		
+		
+		List<PostModel> postModels = new ArrayList<>();
+
+		for (PostEntity postEntity : postEntities) {
+			PostModel postModel = new PostModel();
+			postModel.setId(postEntity.getPostId());
+			postModel.setTitle(postEntity.getTitle());
+			postModel.setText(postEntity.getText());
+
+			String sqlDate = postEntity.getDate().toString();
+			sqlDate = formatDate(sqlDate);
+			postModel.setDate(sqlDate);
+
+			postModel.setAuthorEmail(postEntity.getAuthorUsername());
+			postModels.add(postModel);
+		}
+		return postModels;
+	}
 
 	/**
 	 * Retrieves a specific post based on the provided post ID. It does so by

@@ -1,5 +1,6 @@
 package com.gcu.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class PostDataService implements PostDataAccessInterface<PostEntity> {
 	 */
 	@Override
 	public List<PostEntity> getPosts(String email) {
+		Long authorId = usersRepository.getAuthorIdFromEmail(email);
+		return postRepository.getFeed(authorId);
+	}
+	
+	@Override
+	public List<PostEntity> getFeed(String email) {
 		Long authorId = usersRepository.getAuthorIdFromEmail(email);
 		return postRepository.getPostsByAuthorId(authorId);
 	}

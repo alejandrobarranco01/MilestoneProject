@@ -7,6 +7,8 @@ import com.gcu.model.PostModel;
 public interface PostBusinessServiceInterface {
 
 	public List<PostModel> getPosts(String email);
+	
+	public List<PostModel> getFeed(String email);
 
 	public PostModel getPost(Long postId);
 

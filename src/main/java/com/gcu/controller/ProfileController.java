@@ -154,10 +154,8 @@ public class ProfileController {
 	@PostMapping("/user/{userId}/followOrUnfollow")
 	public String followOrUnfollow(@PathVariable Long userId, HttpSession session) {
 		this.email = (String) session.getAttribute("email");
-		
-		boolean isFollowed = usersRepository.isFollowed(usersRepository.getAuthorIdFromEmail(email), userId);
 
-		System.out.println(isFollowed);
+		boolean isFollowed = usersRepository.isFollowed(usersRepository.getAuthorIdFromEmail(email), userId);
 
 		if (isFollowed) {
 			usersRepository.unfollow(usersRepository.getAuthorIdFromEmail(email), userId);
