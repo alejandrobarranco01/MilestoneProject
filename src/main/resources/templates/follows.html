@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>User Profile</title>
+	<title>Followings</title>
 	<link rel="stylesheet" href="/css/styles.css">
 	<link rel="icon" th:href="@{/images/favicon.png}" type="image/png">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -70,47 +70,29 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex justify-content-between align-items-center">
-								<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
-								<!-- Follower and Following Counts -->
-								<div class="col-6 text-right">
-									<h5 class="card-title mr-3">Followers: <span th:text="${followersCount}"></span>
-									</h5>
-									<h5 class="card-title mr-3">Following: <span th:text="${followingCount}"></span>
-									</h5>
-								</div>
-								<form th:action="@{'/profile/user/' + ${userId} + '/followOrUnfollow'}" method="post">
-									<button type="submit" id="followButton" class="btn"
-										th:classappend="${isFollowed == 'Following' ? 'btn-success' : 'btn-secondary'}"
-										th:text="${isFollowed}"></button>
-								</form>
+								<h2 class="card-title" th:text="${username} + '\'s following:'"></h2>
 							</div>
 
 
 							<hr class="my-4">
 
 
-							<!-- Post container for displaying posts -->
-							<div id="postsContainer">
-								<!-- Check if posts is empty -->
-								<div th:if="${#lists.isEmpty(posts)}">
-									<p th:text="${username + ' has no posts!'}"></p>
+							<!-- Post container for displaying followers -->
+							<div id="followingsContainer">
+								<!-- Check if followers is empty -->
+								<div th:if="${#lists.isEmpty(followings)}">
+									<p th:text="${username + ' follows no one!'}"></p>
 								</div>
 
-								<!-- Iterate through posts if not empty -->
-								<th:block th:unless="${#lists.isEmpty(posts)}" th:each="post : ${posts}">
-									<h2><span th:text="${post.title}"></span></h2>
-									<p><span th:text="${post.text}"></span></p>
-									<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
-
-									<!-- Button container just to put them side by side -->
-									<div class="d-flex">
-										<form th:action="@{'/profile/user/viewPost/' + ${post.id}}" method="post"
-											class="mr-2">
-											<button type="submit" class="btn btn-primary">View</button>
-										</form>
-									</div>
+								<!-- Iterate through followers if not empty -->
+								<th:block th:unless="${#lists.isEmpty(followings)}" th:each="following : ${followings}">
+									<h2>
+										<a th:href="@{'/profile/user/' + ${following.id}}"><span
+												th:text="${following.username}"></span></a>
+									</h2>
 									<hr>
 								</th:block>
+
 							</div>
 
 						</div>

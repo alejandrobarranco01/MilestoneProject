@@ -1,8 +1,11 @@
 package com.gcu.data;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +92,11 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 
 		String sql = "UPDATE USERS SET USERNAME = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newUsername, email);
+
+		Long author_id = usersRepository.getAuthorIdFromEmail(email);
+		String updatePostUsernames = "UPDATE POSTS SET AUTHOR_USERNAME = ? WHERE AUTHOR_ID = ?";
+		jdbcTemplateObject.update(updatePostUsernames, newUsername, author_id);
+
 		return rowsAffected > 0;
 	}
 
@@ -96,6 +104,20 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 		String sql = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newPassword, email);
 		return rowsAffected > 0;
+	}
+
+	public List<UserEntity> getFollowers(Long userId) {
+		String sql = "SELECT u.* FROM USERS u " + "INNER JOIN FOLLOWS f ON u.ID = f.FOLLOWER_ID "
+				+ "WHERE f.FOLLOWED_ID = ?";
+
+		return jdbcTemplateObject.query(sql, new Object[] { userId }, new BeanPropertyRowMapper<>(UserEntity.class));
+	}
+
+	public List<UserEntity> getFollows(Long userId) {
+		String sql = "SELECT u.* FROM USERS u " + "INNER JOIN FOLLOWS f ON u.ID = f.FOLLOWED_ID "
+				+ "WHERE f.FOLLOWER_ID = ?";
+
+		return jdbcTemplateObject.query(sql, new Object[] { userId }, new BeanPropertyRowMapper<>(UserEntity.class));
 	}
 
 }

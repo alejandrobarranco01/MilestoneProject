@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gcu.business.PostBusinessService;
+import com.gcu.business.SecurityBusinessService;
 import com.gcu.data.UserDataService;
 import com.gcu.data.repository.UserRepository;
 import com.gcu.model.PostModel;
+import com.gcu.model.UserModel;
 
 /**
  * Controller class responsible for handling user profile-related requests and
@@ -38,6 +40,9 @@ public class ProfileController {
 
 	@Autowired
 	UserRepository usersRepository;
+
+	@Autowired
+	SecurityBusinessService securityBusinessService;
 
 	// Will retrieve the posts specific to each user and store them here
 	private List<PostModel> posts = new ArrayList<>();
@@ -60,9 +65,17 @@ public class ProfileController {
 
 		String username = usersRepository.getAuthorUsernameFromEmail(email);
 
+		Long userId = usersRepository.getAuthorIdFromEmail(email);
+
+		int followsCount = usersRepository.getFollowsCount(userId);
+		int followersCount = usersRepository.getFollowerCount(userId);
+
 		model.addAttribute("newPost", new PostModel());
 		model.addAttribute("posts", posts);
 		model.addAttribute("username", username);
+		model.addAttribute("followsCount", followsCount);
+		model.addAttribute("followersCount", followersCount);
+
 		return "profile";
 	}
 
@@ -133,10 +146,15 @@ public class ProfileController {
 		else
 			isFollowedAttribute = "Follow";
 
+		int followingCount = usersRepository.getFollowsCount(id);
+		int followersCount = usersRepository.getFollowerCount(id);
+
 		model.addAttribute("isFollowed", isFollowedAttribute);
 		model.addAttribute("posts", otherUserPosts);
 		model.addAttribute("username", otherUserUsername);
 		model.addAttribute("userId", id);
+		model.addAttribute("followingCount", followingCount);
+		model.addAttribute("followersCount", followersCount);
 		return "user";
 	}
 
@@ -228,7 +246,7 @@ public class ProfileController {
 	public String deleteAccount(Model model, HttpSession session) {
 		this.email = (String) session.getAttribute("email");
 		Long userId = usersRepository.getAuthorIdFromEmail(email);
-		
+
 		// Must delete all places where the user id is a foreign key
 		usersRepository.deleteFollows(userId);
 		usersRepository.deleteAllUserPostsByAuthorId(userId);
@@ -241,6 +259,38 @@ public class ProfileController {
 		} else {
 			return "redirect:/signout";
 		}
+	}
+
+	@PostMapping("/getFollowers")
+	public String getFollowers(Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+		List<UserModel> followers = new ArrayList<UserModel>();
+
+		Long userId = usersRepository.getAuthorIdFromEmail(email);
+
+		String userUsername = usersRepository.getAuthorUsernameFromEmail(email);
+
+		followers = securityBusinessService.getFollowers(userId);
+		model.addAttribute("username", userUsername);
+		model.addAttribute("followers", followers);
+
+		return "followers";
+	}
+	
+	@PostMapping("/getFollows")
+	public String getFollows(Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+		List<UserModel> follows = new ArrayList<UserModel>();
+
+		Long userId = usersRepository.getAuthorIdFromEmail(email);
+
+		String userUsername = usersRepository.getAuthorUsernameFromEmail(email);
+
+		follows = securityBusinessService.getFollows(userId);
+		model.addAttribute("username", userUsername);
+		model.addAttribute("follows", follows);
+
+		return "follows";
 	}
 
 }
