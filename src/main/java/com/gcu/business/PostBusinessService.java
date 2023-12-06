@@ -1,5 +1,7 @@
 package com.gcu.business;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,11 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			postModel.setId(postEntity.getPostId());
 			postModel.setTitle(postEntity.getTitle());
 			postModel.setText(postEntity.getText());
+
+			String sqlDate = postEntity.getDate().toString();
+			sqlDate = formatDate(sqlDate);
+			postModel.setDate(sqlDate);
+			
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
 		}
@@ -72,6 +79,11 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			postModel.setId(postEntity.getPostId());
 			postModel.setTitle(postEntity.getTitle());
 			postModel.setText(postEntity.getText());
+			
+			String sqlDate = postEntity.getDate().toString();
+			sqlDate = formatDate(sqlDate);
+			postModel.setDate(sqlDate);
+			
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			return postModel;
 		} catch (Exception e) {
@@ -143,5 +155,18 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			postModels.add(postModel);
 		}
 		return postModels;
+	}
+
+	private String formatDate(String sqlDate) {
+		try {
+			SimpleDateFormat sqlDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+			Date date = sqlDateFormat.parse(sqlDate);
+
+			SimpleDateFormat desiredDateFormat = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
+			return desiredDateFormat.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return sqlDate; // return the original date in case of an exception
+		}
 	}
 }

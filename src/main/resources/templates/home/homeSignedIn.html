@@ -59,7 +59,7 @@
 
 					<button th:action="@{home/viewProfile}"
 						class="btn btn-light btn-sm btn-secondary rounded-circle d-block mb-2" data-toggle="tooltip"
-						data-placement="right" title="Profile"  onclick="window.location.href='/profile'">>
+						data-placement="right" title="Profile" onclick="window.location.href='/profile'">>
 						<i class="bi bi-person" style="font-size: 20px;"></i>
 					</button>
 
@@ -96,14 +96,24 @@
 			<!-- Feed Container -->
 			<main class="col-md-10 col-lg-10 col-sm-10 px-md-3">
 				<div class="jumbotron">
-					<h1 class="display-4">Logged In</h1>
-					<p class="lead">You are now logged in!</p>
+
+					<h1 class="display-4"><span th:text="'Welcome ' + ${username} + '!'">Welcome user!</span></h1>
+
+
 					<hr class="my-4">
+
+					<!-- Check if posts are empty -->
+					<div th:if="${#lists.isEmpty(posts)}">
+						<h1 class="display-4">No Posts Available!</h1>
+						<p class="lead">Create a post or follow another user to see posts!</p>
+					</div>
+
 					<!-- Post container for displaying posts -->
-					<div id="postsContainer">
+					<div id="postsContainer" th:if="${not #lists.isEmpty(posts)}">
 						<div th:each="post : ${posts}">
-							<h2>Title: <span th:text="${post.title}"></span></h2>
-							<p>Post: <span th:text="${post.text}"></span></p>
+							<h2><span th:text="${post.title}"></span></h2>
+							<p><span th:text="${post.text}"></span></p>
+							<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
 
 							<!-- Button container just to put them side by side -->
 							<div class="d-flex">

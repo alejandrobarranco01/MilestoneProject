@@ -35,8 +35,9 @@
 		<!-- Post Container -->
 		<div class="card">
 			<div class="card-body">
-				<h2 class="card-title" th:text="'Title: ' + ${post.title}"></h2>
-				<p class="card-text" th:text="'Text: ' + ${post.text}"></p>
+				<h2 class="card-title" th:text="${post.title}"></h2>
+				<p class="card-text" th:text="${post.text}"></p>
+				<h6 class="card-text" style="font-size: 14px;" th:text="${post.date}"></h6>
 			</div>
 		</div>
 	</div>
