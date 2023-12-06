@@ -3,7 +3,7 @@ package com.gcu.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gcu.data.UsersDataService;
+import com.gcu.data.UserDataService;
 import com.gcu.data.entity.UserEntity;
 
 /**
@@ -12,10 +12,10 @@ import com.gcu.data.entity.UserEntity;
 @Service
 public class SecurityBusinessService implements SecurityBusinessServiceInterface {
 	@Autowired
-	UsersDataService service;
+	UserDataService service;
 
 	/**
-	 * Authenticates the user based on the provided email and password. M4
+	 * Authenticates the user based on the provided email and password.
 	 * 
 	 * @param email    The email address of the user.
 	 * @param password The password associated with the user's account.
@@ -26,8 +26,10 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		return service.verifyLogin(email, password);
 	}
 
-	/** Milestone 4
-	 * Creates a new user account with the provided email, username, and password.
+	/**
+	 * Creates a new user account with the provided email, user name, and password.
+	 * It converts the User Model information and converts it to a Post Entity
+	 * object for the User Data Service to utilize.
 	 * 
 	 * @param email    The email address of the user.
 	 * @param username The desired user name for the user.

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gcu.data.entity.PostEntity;
 import com.gcu.data.repository.PostRepository;
-import com.gcu.data.repository.UsersRepository;
+import com.gcu.data.repository.UserRepository;
 
 /**
  * Service class responsible for interacting with the data layer to perform CRUD
@@ -21,7 +21,7 @@ public class PostDataService implements PostDataAccessInterface<PostEntity> {
 	private PostRepository postRepository;
 
 	@Autowired
-	private UsersRepository usersRepository;
+	private UserRepository usersRepository;
 
 	/**
 	 * Constructor for PostDataService.
