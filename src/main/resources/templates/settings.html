@@ -93,26 +93,30 @@
 									Change Password
 								</button>
 								<div class="collapse mr-2" id="changePasswordFields">
-									<input type="text" class="form-control mb-2" placeholder="Current Password">
-									<input type="text" class="form-control mb-2" placeholder="New Password">
-									<input type="text" class="form-control mb-2" placeholder="Confirm New Password">
-									<button type="button" class="btn btn-success">Submit</button>
+									<form th:action="@{/profile/settings/changePassword}" method="post">
+									<input type="text" class="form-control mb-2" placeholder="Current Password" name="currentPassword">
+									<input type="text" class="form-control mb-2" placeholder="New Password" name="newPassword">
+									<input type="text" class="form-control mb-2" placeholder="Confirm New Password" name="newPasswordConfirm">
+									<button type="submit" class="btn btn-success">Submit</button>
+									</form>
 								</div>
 								<button class="btn btn-danger mr-2" data-toggle="collapse" href="#deleteAccountFields"
 									role="button" aria-expanded="false" aria-controls="deleteAccountFields">
 									Delete Account
 								</button>
 								<div class="collapse mr-2" id="deleteAccountFields">
-									<button type="button" class="btn btn-danger">Confirm</button>
+									<form th:action="@{/profile/settings/deleteAccount}" method="post">
+									<button type="submit" class="btn btn-danger">Confirm</button>
+									</form>
 								</div>
 							</div>
 							<hr>
-							<!-- Display error messages with username change if they exist -->
+							<!-- Display error messages if they exist -->
 							<div th:if="${error}" class="text-danger mt-2">
 								<p th:text="${error}"></p>
 							</div>
 
-							<!-- Display success message wuth username change if it exists -->
+							<!-- Display success message if it exists -->
 							<div th:if="${success}" class="text-success mt-2">
 								<p th:text="${success}"></p>
 							</div>

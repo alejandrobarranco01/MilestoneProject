@@ -42,4 +42,22 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 	@Modifying
 	@Query("DELETE FROM FOLLOWS WHERE FOLLOWER_ID = :followerId AND FOLLOWED_ID = :followedId")
 	void unfollow(Long followerId, Long followedId);
+
+	@Query("SELECT PASSWORD FROM USERS WHERE EMAIL = :email")
+	public String getUserPasswordFromEmail(String email);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM USERS WHERE ID = :userId")
+	boolean deleteUserById(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM POSTS WHERE AUTHOR_ID = :userId")
+	void deleteAllUserPostsByAuthorId(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM FOLLOWS WHERE FOLLOWER_ID = :userId OR FOLLOWED_ID = :userId")
+	void deleteFollows(Long userId);
 }

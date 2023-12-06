@@ -58,9 +58,11 @@ public class PostModel {
 	public String getDate() {
 		return date;
 	}
+
 	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
+
 	public Long getAuthorId() {
 		return authorId;
 	}
