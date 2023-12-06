@@ -115,7 +115,8 @@ public class ProfileController {
 	}
 
 	@GetMapping("/user/{id}")
-	public String viewOtherProfile(@PathVariable Long id, Model model) {
+	public String viewOtherProfile(@PathVariable Long id, Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
 		String otherUserEmail = usersRepository.getAuthorEmailFromId(id);
 		if (otherUserEmail == null)
 			return "error";

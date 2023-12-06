@@ -58,6 +58,7 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
+			
 		}
 		return postModels;
 	}
