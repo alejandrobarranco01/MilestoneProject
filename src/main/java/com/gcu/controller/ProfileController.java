@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gcu.business.PostBusinessService;
 import com.gcu.data.UserDataService;
@@ -136,8 +137,24 @@ public class ProfileController {
 			return "viewPost";
 
 		}
-		
 		return "error";
 	}
+	
+	@GetMapping("/settings") 
+	public String getSettings() {
+		return "settings";
+	}
+	@PostMapping("/settings/changeUsername")
+    public String changeUsername(@RequestParam String newUsername, Model model) {
+        
+        if (usersDataService.userExists(null, newUsername)) return "redirect:/profile/settings";
+        
+        else {
+        	usersDataService.updateUserUsername(email, newUsername);
+        	return "redirect:/profile";
+        }        
+    }
+
+    
 
 }

@@ -84,5 +84,11 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 		// If count is greater than 0, it means a matching user was found
 		return usersRepository.verifyLogin(email, password) > 0;
 	}
+	
+	public boolean updateUserUsername(String email, String newUsername) {
+        String sql = "UPDATE USERS SET USERNAME = ? WHERE EMAIL = ?";
+        int rowsAffected = jdbcTemplateObject.update(sql, newUsername, email);
+        return rowsAffected > 0;
+    }
 
 }
