@@ -35,8 +35,8 @@
 			<div class="card-body">
 				<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
 
-
 				<hr class="my-4">
+
 
 				<!-- Post container for displaying posts -->
 				<div id="postsContainer">
@@ -47,11 +47,8 @@
 
 						<!-- Button container just to put them side by side -->
 						<div class="d-flex">
-							<form th:action="@{'/profile/viewPost/' + ${post.id}}" method="post" class="mr-2">
+							<form th:action="@{'/profile/user/viewPost/' + ${post.id}}" method="post" class="mr-2">
 								<button type="submit" class="btn btn-primary">View</button>
-							</form>
-							<form th:action="@{'/profile/deletePost/' + ${post.id}}" method="post">
-								<button type="submit" class="btn btn-danger">Delete</button>
 							</form>
 						</div>
 						<hr>

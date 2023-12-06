@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gcu.business.PostBusinessService;
 import com.gcu.data.repository.UserRepository;
@@ -131,4 +132,17 @@ public class UserController {
 		}
 		return "error";
 	}
+
+	@PostMapping("/search")
+	public String searchUsers(@RequestParam String query, Model model) {
+		Long userId = userRepository.findUsernamesContaining(query);
+		if (userId == null) {
+			return "redirect:/home/homeSignedIn";
+		} else if (userId == userRepository.getAuthorIdFromEmail(email)) {
+			return "redirect:/profile";
+		} else {
+			return "redirect:/profile/user/" + userId;
+		}
+	}
+
 }

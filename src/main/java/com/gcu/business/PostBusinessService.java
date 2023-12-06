@@ -55,7 +55,7 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			String sqlDate = postEntity.getDate().toString();
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);
-			
+
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			postModels.add(postModel);
 		}
@@ -79,11 +79,11 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 			postModel.setId(postEntity.getPostId());
 			postModel.setTitle(postEntity.getTitle());
 			postModel.setText(postEntity.getText());
-			
+
 			String sqlDate = postEntity.getDate().toString();
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);
-			
+
 			postModel.setAuthorEmail(postEntity.getAuthorUsername());
 			return postModel;
 		} catch (Exception e) {

@@ -113,4 +113,31 @@ public class ProfileController {
 		return "error";
 	}
 
+	@GetMapping("/user/{id}")
+	public String viewOtherProfile(@PathVariable Long id, Model model) {
+		String otherUserEmail = usersRepository.getAuthorEmailFromId(id);
+		if (otherUserEmail == null)
+			return "error";
+		List<PostModel> otherUserPosts = postBusinessService.getPosts(otherUserEmail);
+
+		String otherUserUsername = usersRepository.getAuthorUsernameFromId(id);
+
+		model.addAttribute("posts", otherUserPosts);
+		model.addAttribute("username", otherUserUsername);
+		return "user";
+	}
+	
+	@PostMapping("/user/viewPost/{id}")
+	public String viewOtherUserPost(@PathVariable Long id, Model model) {
+		PostModel post = postBusinessService.getPost(id);
+
+		if (post != null) {
+			model.addAttribute("post", post);
+			return "viewPost";
+
+		}
+		
+		return "error";
+	}
+
 }
