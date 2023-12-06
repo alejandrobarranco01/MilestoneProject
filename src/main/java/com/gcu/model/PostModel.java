@@ -50,5 +50,7 @@ public class PostModel {
 	public String getAuthorEmail() {
 		return authorEmail;
 	}
+	
+	
 
 }

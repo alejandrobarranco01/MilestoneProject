@@ -54,4 +54,7 @@ public interface PostsRepository extends CrudRepository<PostEntity, Long> {
 	@Modifying
 	@Query("DELETE FROM POSTS WHERE POST_ID = :postId")
 	void deleteByPostId(Long postId);
+	
+	@Query("SELECT * FROM POSTS")
+	List<PostEntity> getAllPosts();
 }

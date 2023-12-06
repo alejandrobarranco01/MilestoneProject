@@ -44,5 +44,7 @@ public interface PostsDataAccessInterface<T> {
 	 *         otherwise.
 	 */
 	public boolean deletePost(Long postId);
+	
+	public List<PostEntity> getAllPosts();
 
 }

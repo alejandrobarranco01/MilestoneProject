@@ -125,4 +125,8 @@ public class PostsDataService implements PostsDataAccessInterface<PostEntity> {
 			return false;
 		}
 	}
+	
+	public List<PostEntity> getAllPosts() {
+		return postsRepository.getAllPosts();
+	}
 }
