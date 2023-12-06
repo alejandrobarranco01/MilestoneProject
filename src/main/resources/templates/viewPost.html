@@ -11,6 +11,8 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -32,12 +34,41 @@
 
 
 	<div class="container mt-5">
-		<!-- Post Container -->
-		<div class="card">
-			<div class="card-body">
-				<h2 class="card-title" th:text="${post.title}"></h2>
-				<p class="card-text" th:text="${post.text}"></p>
-				<h6 class="card-text" style="font-size: 14px;" th:text="${post.date}"></h6>
+		<div class="container-fluid">
+			<div class="row">
+
+				<!-- Sidebar -->
+				<nav id="sidebar" class="col-2 md-block bg-light sidebar">
+					<div class="position-sticky">
+						<button th:action="@{/home/homeSignedIn}"
+							class="btn btn-light btn-sm rounded-circle d-block mb-2" data-toggle="tooltip"
+							data-placement="right" title="Home" onclick="window.location.href='/home/homeSignedIn'">
+							<i class="bi bi-house-door" style="font-size: 20px;"></i>
+						</button>
+
+						<button th:action="@{home/viewProfile}"
+							class="btn btn-light btn-sm btn-secondary rounded-circle d-block mb-2" data-toggle="tooltip"
+							data-placement="right" title="Profile" onclick="window.location.href='/profile'">
+							<i class="bi bi-person" style="font-size: 20px;"></i>
+						</button>
+
+						<button class="btn btn-light btn-sm rounded-circle d-block mb-2" data-toggle="tooltip"
+							data-placement="right" title="Settings" onclick="window.location.href='/profile/settings'">
+							<i class="bi bi-gear" style="font-size: 20px;"></i>
+						</button>
+					</div>
+				</nav>
+
+				<!-- Post Container -->
+				<div class="col-md-10 col-lg-10 col-sm-10 px-md-3">
+					<div class="card">
+						<div class="card-body">
+							<h2 class="card-title" th:text="${post.title}"></h2>
+							<p class="card-text" th:text="${post.text}"></p>
+							<h6 class="card-text" style="font-size: 14px;" th:text="${post.date}"></h6>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
