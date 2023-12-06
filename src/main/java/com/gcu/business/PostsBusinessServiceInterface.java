@@ -42,4 +42,7 @@ public interface PostsBusinessServiceInterface {
 	 *         otherwise.
 	 */
 	public boolean deletePost(Long postId);
+	
+	public List<PostModel> getAllPosts();
+
 }

@@ -100,4 +100,19 @@ public class PostsBusinessService implements PostsBusinessServiceInterface {
 			return false;
 		}
 	}
+	
+	public List<PostModel> getAllPosts() {
+		List<PostEntity> postEntities = service.getAllPosts();
+		List<PostModel> postModels = new ArrayList<>();
+
+		for (PostEntity postEntity : postEntities) {
+			PostModel postModel = new PostModel();
+			postModel.setId(postEntity.getPostId());
+			postModel.setTitle(postEntity.getTitle());
+			postModel.setText(postEntity.getText());
+			postModel.setAuthorEmail(postEntity.getAuthorUsername());
+			postModels.add(postModel);
+		}
+		return postModels;
+	}
 }
