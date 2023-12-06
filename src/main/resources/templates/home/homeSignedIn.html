@@ -71,9 +71,8 @@
 						<i class="bi bi-person" style="font-size: 20px;"></i>
 					</button>
 
-					<button class="btn btn-light btn-sm rounded-circle d-block mb-2"
-						data-toggle="tooltip" data-placement="right" title="Settings"
-						onclick="window.location.href='/profile/settings'">
+					<button class="btn btn-light btn-sm rounded-circle d-block mb-2" data-toggle="tooltip"
+						data-placement="right" title="Settings" onclick="window.location.href='/profile/settings'">
 						<i class="bi bi-gear" style="font-size: 20px;"></i>
 					</button>
 
@@ -117,16 +116,20 @@
 					<hr class="my-4">
 
 					<!-- Check if posts are empty -->
-					<div th:if="${#lists.isEmpty(posts)}">
+					<div th:if="${#lists.isEmpty(feed)}">
 						<h1 class="display-4">No Posts Available!</h1>
 						<p class="lead">Create a post or follow another user to see posts!</p>
 					</div>
 
 					<!-- Post container for displaying posts -->
-					<div id="postsContainer" th:if="${not #lists.isEmpty(posts)}">
-						<div th:each="post : ${posts}">
+					<div id="postsContainer" th:if="${not #lists.isEmpty(feed)}">
+						<div th:each="post : ${feed}">
 							<h2><span th:text="${post.title}"></span></h2>
 							<p><span th:text="${post.text}"></span></p>
+							<!-- Show an additional field when post authorEmail is not equal to the logged-in user's username -->
+							<div th:unless="${post.authorEmail == username}">
+								<p>Author: <span th:text="${post.authorEmail}"></span></p>
+							</div>
 							<h6 style="font-size: 14px;"><span th:text="${post.date}"></span></h6>
 
 							<!-- Button container just to put them side by side -->
@@ -134,13 +137,20 @@
 								<form th:action="@{'/home/viewPost/' + ${post.id}}" method="post" class="mr-2">
 									<button type="submit" class="btn btn-primary">View</button>
 								</form>
-								<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
-									<button type="submit" class="btn btn-danger">Delete</button>
-								</form>
+
+								<!-- Show the delete button only if the post authorEmail is equal to the logged-in user's email -->
+								<div th:if="${post.authorEmail == username}">
+									<form th:action="@{'/home/deletePost/' + ${post.id}}" method="post">
+										<button type="submit" class="btn btn-danger">Delete</button>
+									</form>
+								</div>
+
+
 							</div>
 							<hr>
 						</div>
 					</div>
+
 				</div>
 			</main>
 		</div>

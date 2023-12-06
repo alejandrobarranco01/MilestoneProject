@@ -28,4 +28,7 @@ public interface PostRepository extends CrudRepository<PostEntity, Long> {
 
 	@Query("SELECT * FROM POSTS")
 	List<PostEntity> getAllPosts();
+
+	@Query("SELECT * FROM POSTS WHERE AUTHOR_ID = :authorId OR AUTHOR_ID IN (SELECT FOLLOWED_ID FROM FOLLOWS WHERE FOLLOWER_ID = :authorId) ORDER BY DATE DESC")
+	List<PostEntity> getFeed(Long authorId);
 }

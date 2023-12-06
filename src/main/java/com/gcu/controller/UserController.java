@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	private List<PostModel> posts = new ArrayList<>();
+	private List<PostModel> feed = new ArrayList<>();
 
 	private String email;
 	private String username;
@@ -57,11 +57,11 @@ public class UserController {
 			return "home/homeNotSignedIn";
 
 		this.email = email;
-		this.posts = postBusinessService.getPosts(email);
+		this.feed = postBusinessService.getPosts(email);
 		this.username = userRepository.getAuthorUsernameFromEmail(email);
 
 		model.addAttribute("newPost", new PostModel());
-		model.addAttribute("posts", posts);
+		model.addAttribute("feed", feed);
 		model.addAttribute("username", username);
 		return "home/homeSignedIn";
 	}
@@ -98,7 +98,7 @@ public class UserController {
 		if (email == null)
 			return "home/homeNotSignedIn";
 		postBusinessService.deletePost(id);
-		Iterator<PostModel> iterator = posts.iterator();
+		Iterator<PostModel> iterator = feed.iterator();
 		while (iterator.hasNext()) {
 			PostModel post = iterator.next();
 			if (post.getId().equals(id)) {

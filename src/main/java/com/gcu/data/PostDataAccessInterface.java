@@ -17,6 +17,8 @@ public interface PostDataAccessInterface<T> {
 	 * @return A list of PostEntity objects representing the user's posts.
 	 */
 	public List<PostEntity> getPosts(String email);
+	
+	public List<PostEntity> getFeed(String email);
 
 	/**
 	 * Retrieves a specific post based on its ID.

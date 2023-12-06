@@ -62,7 +62,15 @@
 				<div class="col-md-10 col-lg-10 col-sm-10 px-md-3">
 					<div class="card">
 						<div class="card-body">
-							<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
+							<div class="d-flex justify-content-between align-items-center">
+								<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
+								<form th:action="@{'/profile/user/' + ${userId} + '/followOrUnfollow'}" method="post">
+									<button type="submit" id="followButton" class="btn"
+										th:classappend="${isFollowed == 'Following' ? 'btn-success' : 'btn-secondary'}"
+										th:text="${isFollowed}"></button>
+								</form>
+							</div>
+
 
 							<hr class="my-4">
 
