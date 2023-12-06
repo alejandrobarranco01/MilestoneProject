@@ -1,10 +1,14 @@
 package com.gcu.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.UserDataService;
 import com.gcu.data.entity.UserEntity;
+import com.gcu.model.UserModel;
 
 /**
  * Service class handling user authentication and account creation operations.
@@ -12,7 +16,7 @@ import com.gcu.data.entity.UserEntity;
 @Service
 public class SecurityBusinessService implements SecurityBusinessServiceInterface {
 	@Autowired
-	UserDataService service;
+	UserDataService userDataService;
 
 	/**
 	 * Authenticates the user based on the provided email and password.
@@ -23,7 +27,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	 *         indicating successful authentication; false otherwise.
 	 */
 	public boolean authenticate(String email, String password) {
-		return service.verifyLogin(email, password);
+		return userDataService.verifyLogin(email, password);
 	}
 
 	/**
@@ -39,6 +43,36 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	 */
 	public boolean createAccount(String email, String username, String password) {
 		UserEntity user = new UserEntity(username, email, password);
-		return service.createAccount(user);
+		return userDataService.createAccount(user);
+	}
+
+	public List<UserModel> getFollowers(Long userId) {
+		List<UserEntity> followerEntities = new ArrayList<UserEntity>();
+		List<UserModel> followerModels = new ArrayList<UserModel>();
+
+		followerEntities = userDataService.getFollowers(userId);
+
+		for (UserEntity follower : followerEntities) {
+			UserModel user = new UserModel();
+			user.setId(follower.getId());
+			user.setUsername(follower.getUsername());
+			followerModels.add(user);
+		}
+		return followerModels;
+	}
+
+	public List<UserModel> getFollows(Long userId) {
+		List<UserEntity> followEntities = new ArrayList<UserEntity>();
+		List<UserModel> followModels = new ArrayList<UserModel>();
+
+		followEntities = userDataService.getFollowers(userId);
+
+		for (UserEntity follow : followEntities) {
+			UserModel user = new UserModel();
+			user.setId(follow.getId());
+			user.setUsername(follow.getUsername());
+			followModels.add(user);
+		}
+		return followModels;
 	}
 }

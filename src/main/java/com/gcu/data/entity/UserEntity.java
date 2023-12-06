@@ -30,6 +30,10 @@ public class UserEntity {
 		this.password = password;
 	}
 
+	public UserEntity() {
+
+	}
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<PostEntity> posts;
 
