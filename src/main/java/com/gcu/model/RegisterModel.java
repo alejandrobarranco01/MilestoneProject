@@ -122,7 +122,7 @@ public class RegisterModel {
      *
      * @return true if the passwords match, false otherwise.
      */
-    @AssertTrue(message = "Passwords don't match")
+    @AssertTrue(message = "Passwords do not match!")
     private boolean isPasswordMatch() {
         return password != null && password.equals(confirmPassword);
     }

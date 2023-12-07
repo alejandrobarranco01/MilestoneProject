@@ -77,22 +77,31 @@
 							<hr class="my-4">
 
 
-							<!-- Post container for displaying followers -->
-							<div id="followingsContainer">
+							<!-- Post container for displaying follows -->
+							<div id="followsContainer">
 								<!-- Check if followers is empty -->
-								<div th:if="${#lists.isEmpty(followings)}">
-									<p th:text="${username + ' follows no one!'}"></p>
+								<div th:if="${#lists.isEmpty(follows)}">
+									<p th:text="${username + ' has no follows!'}"></p>
 								</div>
 
 								<!-- Iterate through followers if not empty -->
-								<th:block th:unless="${#lists.isEmpty(followings)}" th:each="following : ${followings}">
+								<th:block th:unless="${#lists.isEmpty(follows)}" th:each="follow : ${follows}">
 									<h2>
-										<a th:href="@{'/profile/user/' + ${following.id}}"><span
-												th:text="${following.username}"></span></a>
+										<!-- Check if follower's ID is equal to sessionUserId -->
+										<span th:if="${follow.id != sessionUserId}">
+											<a th:href="@{'/profile/user/' + ${follow.id}}">
+												<span th:text="${follow.username}"></span>
+											</a>
+										</span>
+										<span th:unless="${follow.id != sessionUserId}">
+											<!-- Display the username with a different link -->
+											<a th:href="@{/profile}">
+												<span th:text="${follow.username}"></span>
+											</a>
+										</span>
 									</h2>
 									<hr>
 								</th:block>
-
 							</div>
 
 						</div>

@@ -62,15 +62,31 @@ public class RegisterController {
 			return "register";
 		}
 
-		if (!securityBusinessService.createAccount(registerModel.getEmail().toLowerCase(), registerModel.getUsername().toLowerCase(),
-				registerModel.getPassword())) {
-			// If there's any errors in creating the account display message
+		int response = securityBusinessService.createAccount(registerModel.getEmail().toLowerCase(),
+				registerModel.getUsername().toLowerCase(), registerModel.getPassword());
+
+		switch (response) {
+		// Success
+		case 1:
+			session.setAttribute("email", registerModel.getEmail().toLowerCase());
+			return "redirect:/home/homeSignedIn";
+		// User name already taken
+		case 2:
+			model.addAttribute("error", "Username already taken!");
+			return "register";
+		// Email already taken
+		case 3:
+			model.addAttribute("error", "Email is already associated with an account!");
+			return "register";
+		// Fail to save user (back-end error)
+		case 4:
+			model.addAttribute("error", "Account failed to register! Please try again later.");
+			return "register";
+		// All other situations
+		default:
+			model.addAttribute("error", "An unexpected error has occured. Please check all fields");
 			return "register";
 		}
 
-		session.setAttribute("email", registerModel.getEmail().toLowerCase());
-
-		// Process registration logic and redirect to home view for signed-in users
-		return "redirect:/home/homeSignedIn";
 	}
 }

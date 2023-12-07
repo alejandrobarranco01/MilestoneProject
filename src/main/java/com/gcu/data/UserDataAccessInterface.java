@@ -8,9 +8,13 @@ public interface UserDataAccessInterface<T> {
 
 	public boolean verifyLogin(String email, String password);
 
-	public boolean createAccount(T t);
+	public int createAccount(T t);
 
 	public boolean userExists(String username, String email);
+	
+	public boolean emailExists(String email);
+	
+	public boolean usernameExists(String username);
 	
 	public List<UserEntity> getFollowers(Long userId);
 }
