@@ -45,17 +45,28 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	 *         the same user name or email already exists.
 	 */
 	@Override
-	public boolean createAccount(UserEntity user) {
+	public int createAccount(UserEntity user) {
 		// Check if the user name or email already exists
 		if (userExists(user.getUsername(), user.getEmail())) {
-			// User with the same user name or email already exists
-			return false;
+			int response;
+			if (emailExists(user.getEmail())) {
+				response = 3;
+				return response;
+			} else if (usernameExists(user.getUsername())) {
+				response = 2;
+				return response;
+			} else {
+				response = 4;
+				return response;
+			}
 		}
 
 		String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) VALUES (?, ?, ?)";
 		int rowsAffected = jdbcTemplateObject.update(sql, user.getUsername(), user.getEmail(), user.getPassword());
-
-		return rowsAffected > 0;
+		if (rowsAffected > 0)
+			return 1;
+		else
+			return 4;
 	}
 
 	/**
@@ -71,6 +82,20 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	public boolean userExists(String username, String email) {
 		String sql = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? OR EMAIL = ?";
 		int count = jdbcTemplateObject.queryForObject(sql, Integer.class, username, email);
+		return count > 0;
+	}
+
+	@Override
+	public boolean emailExists(String email) {
+		String sql = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ?";
+		int count = jdbcTemplateObject.queryForObject(sql, Integer.class, email);
+		return count > 0;
+	}
+
+	@Override
+	public boolean usernameExists(String username) {
+		String sql = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ?";
+		int count = jdbcTemplateObject.queryForObject(sql, Integer.class, username);
 		return count > 0;
 	}
 

@@ -73,12 +73,10 @@
 								<h2 class="card-title" th:text="${username} + '\'s followers:'"></h2>
 							</div>
 
-
 							<hr class="my-4">
 
-
 							<!-- Post container for displaying followers -->
-							<div id="followsContainer">
+							<div id="followersContainer">
 								<!-- Check if followers is empty -->
 								<div th:if="${#lists.isEmpty(followers)}">
 									<p th:text="${username + ' has no followers!'}"></p>
@@ -87,17 +85,26 @@
 								<!-- Iterate through followers if not empty -->
 								<th:block th:unless="${#lists.isEmpty(followers)}" th:each="follower : ${followers}">
 									<h2>
-										<a th:href="@{'/profile/user/' + ${follower.id}}"><span
-												th:text="${follower.username}"></span></a>
+										<!-- Check if follower's ID is equal to sessionUserId -->
+										<span th:if="${follower.id != sessionUserId}">
+											<a th:href="@{'/profile/user/' + ${follower.id}}">
+												<span th:text="${follower.username}"></span>
+											</a>
+										</span>
+										<span th:unless="${follower.id != sessionUserId}">
+											<!-- Display the username with a different link -->
+											<a th:href="@{/profile}">
+												<span th:text="${follower.username}"></span>
+											</a>
+										</span>
 									</h2>
 									<hr>
 								</th:block>
-
 							</div>
-
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>

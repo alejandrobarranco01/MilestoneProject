@@ -146,14 +146,14 @@ public class ProfileController {
 		else
 			isFollowedAttribute = "Follow";
 
-		int followingCount = usersRepository.getFollowsCount(id);
+		int followsCount = usersRepository.getFollowsCount(id);
 		int followersCount = usersRepository.getFollowerCount(id);
 
 		model.addAttribute("isFollowed", isFollowedAttribute);
 		model.addAttribute("posts", otherUserPosts);
 		model.addAttribute("username", otherUserUsername);
 		model.addAttribute("userId", id);
-		model.addAttribute("followingCount", followingCount);
+		model.addAttribute("followsCount", followsCount);
 		model.addAttribute("followersCount", followersCount);
 		return "user";
 	}
@@ -183,6 +183,47 @@ public class ProfileController {
 		}
 
 		return "redirect:/profile/user/" + userId;
+	}
+
+	@PostMapping("/user/{userId}/getFollowers")
+	public String getUserFollowers(@PathVariable Long userId, Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+
+		List<UserModel> followers = new ArrayList<UserModel>();
+
+		String userEmail = usersRepository.getAuthorEmailFromId(userId);
+		String userUsername = usersRepository.getAuthorUsernameFromEmail(userEmail);
+
+		Long sessionUserId = usersRepository.getAuthorIdFromEmail(email);
+
+		followers = securityBusinessService.getFollowers(userId);
+		model.addAttribute("username", userUsername);
+		model.addAttribute("followers", followers);
+		model.addAttribute("sessionUserId", sessionUserId);
+
+		return "followers";
+
+	}
+
+	@PostMapping("/user/{userId}/getFollows")
+	public String getUserFollows(@PathVariable Long userId, Model model, HttpSession session) {
+		this.email = (String) session.getAttribute("email");
+
+		List<UserModel> follows = new ArrayList<UserModel>();
+
+		String userEmail = usersRepository.getAuthorEmailFromId(userId);
+		String userUsername = usersRepository.getAuthorUsernameFromEmail(userEmail);
+
+		follows = securityBusinessService.getFollows(userId);
+
+		Long sessionUserId = usersRepository.getAuthorIdFromEmail(email);
+
+		model.addAttribute("username", userUsername);
+		model.addAttribute("follows", follows);
+		model.addAttribute("sessionUserId", sessionUserId);
+
+		return "follows";
+
 	}
 
 	@GetMapping("/settings")
@@ -276,7 +317,7 @@ public class ProfileController {
 
 		return "followers";
 	}
-	
+
 	@PostMapping("/getFollows")
 	public String getFollows(Model model, HttpSession session) {
 		this.email = (String) session.getAttribute("email");

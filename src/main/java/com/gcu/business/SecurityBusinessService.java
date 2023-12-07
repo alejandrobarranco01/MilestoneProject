@@ -41,7 +41,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	 * @return True if the account was created successfully, false if a user with
 	 *         the same user name or email already exists.
 	 */
-	public boolean createAccount(String email, String username, String password) {
+	public int createAccount(String email, String username, String password) {
 		UserEntity user = new UserEntity(username, email, password);
 		return userDataService.createAccount(user);
 	}
@@ -65,7 +65,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 		List<UserEntity> followEntities = new ArrayList<UserEntity>();
 		List<UserModel> followModels = new ArrayList<UserModel>();
 
-		followEntities = userDataService.getFollowers(userId);
+		followEntities = userDataService.getFollows(userId);
 
 		for (UserEntity follow : followEntities) {
 			UserModel user = new UserModel();

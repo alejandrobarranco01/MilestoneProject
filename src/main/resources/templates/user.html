@@ -73,10 +73,18 @@
 								<h2 class="card-title" th:text="${username} + '\'s posts:'"></h2>
 								<!-- Follower and Following Counts -->
 								<div class="col-6 text-right">
-									<h5 class="card-title mr-3">Followers: <span th:text="${followersCount}"></span>
-									</h5>
-									<h5 class="card-title mr-3">Following: <span th:text="${followingCount}"></span>
-									</h5>
+									<form th:action="@{'/profile/user/' + ${userId} + '/getFollowers'}" method="post">
+										<button type="submit" class="btn btn-link text-decoration-none followers-link">
+											Followers: <span th:text="${followersCount}"></span>
+										</button>
+									</form>
+									<form th:action="@{'/profile/user/' + ${userId} + '/getFollows'}" method="post">
+										<button type="submit" class="btn btn-link text-decoration-none followers-link">
+											Following: <span th:text="${followsCount}"></span>
+										</button>
+									</form>
+
+
 								</div>
 								<form th:action="@{'/profile/user/' + ${userId} + '/followOrUnfollow'}" method="post">
 									<button type="submit" id="followButton" class="btn"
