@@ -6,7 +6,7 @@ import com.gcu.model.UserModel;
 
 public interface SecurityBusinessServiceInterface {
 
-	public boolean authenticate(String username, String password);
+	public int authenticate(String username, String password);
 
 	public int createAccount(String email, String username, String password);
 	

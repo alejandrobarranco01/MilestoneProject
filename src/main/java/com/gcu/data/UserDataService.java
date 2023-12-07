@@ -108,9 +108,21 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	 *         otherwise.
 	 */
 	@Override
-	public boolean verifyLogin(String email, String password) {
-		// If count is greater than 0, it means a matching user was found
-		return usersRepository.verifyLogin(email, password) > 0;
+	public int verifyLogin(String email, String password) {
+		int response = usersRepository.verifyLogin(email, password);
+
+		// Success
+		if (response > 0)
+			return 1;
+
+		// Wrong password
+		else if (emailExists(email))
+			return 3;
+
+		// No email associated with account
+		else
+			return 2;
+
 	}
 
 	public boolean updateUserUsername(String email, String newUsername) {

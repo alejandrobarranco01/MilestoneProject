@@ -65,15 +65,25 @@ public class LoginController {
 			model.addAttribute("title", "Login Form");
 			return "login";
 		}
-		// Milestone 4
-		if (!securityBusinessService.authenticate(loginModel.getUsername(), loginModel.getPassword())) {
-			// Display errors in login page
+
+		int response = securityBusinessService.authenticate(loginModel.getUsername(), loginModel.getPassword());
+
+		switch (response) {
+		case 1:
+			session.setAttribute("email", loginModel.getUsername());
+			return "redirect:/home/homeSignedIn";
+		case 2:
+			model.addAttribute("error", "This email is not associated with an account!");
+			return "login";
+		case 3:
+			model.addAttribute("error", "Incorrect password!");
+			return "login";
+		case 4:
+			model.addAttribute("error", "Failed to connect to backend. Please try again later.");
 			return "login";
 		}
+		model.addAttribute("error", "An unexpected error has occurred. Please try again later.");
+		return "login";
 
-		session.setAttribute("email", loginModel.getUsername());
-
-		// Process login logic and redirect to home view for signed-in users
-		return "redirect:/home/homeSignedIn";
 	}
 }

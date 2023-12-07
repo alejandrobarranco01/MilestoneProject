@@ -26,7 +26,7 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 	 * @return True if the provided email and password match a user's record,
 	 *         indicating successful authentication; false otherwise.
 	 */
-	public boolean authenticate(String email, String password) {
+	public int authenticate(String email, String password) {
 		return userDataService.verifyLogin(email, password);
 	}
 

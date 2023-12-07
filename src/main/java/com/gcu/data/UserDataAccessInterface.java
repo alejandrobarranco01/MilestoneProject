@@ -6,7 +6,7 @@ import com.gcu.data.entity.UserEntity;
 
 public interface UserDataAccessInterface<T> {
 
-	public boolean verifyLogin(String email, String password);
+	public int verifyLogin(String email, String password);
 
 	public int createAccount(T t);
 
