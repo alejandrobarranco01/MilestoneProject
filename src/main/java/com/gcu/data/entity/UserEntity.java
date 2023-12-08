@@ -34,17 +34,6 @@ public class UserEntity {
 
 	}
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<PostEntity> posts;
-
-	public List<PostEntity> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<PostEntity> posts) {
-		this.posts = posts;
-	}
-
 	public Long getId() {
 		return id;
 	}

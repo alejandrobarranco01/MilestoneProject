@@ -137,6 +137,7 @@ public class UserController {
 	public String searchUsers(@RequestParam String query, Model model) {
 		Long userId = userRepository.findUsernamesContaining(query);
 		if (userId == null) {
+			model.addAttribute("error", "User does not exist!");
 			return "redirect:/home/homeSignedIn";
 		} else if (userId == userRepository.getAuthorIdFromEmail(email)) {
 			return "redirect:/profile";

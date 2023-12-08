@@ -11,10 +11,20 @@ public interface UserDataAccessInterface<T> {
 	public int createAccount(T t);
 
 	public boolean userExists(String username, String email);
-	
+
 	public boolean emailExists(String email);
-	
+
+	public boolean updateUserUsername(String email, String newUsername);
+
 	public boolean usernameExists(String username);
-	
+
+	public boolean updateUserPassword(String email, String newPassword);
+
 	public List<UserEntity> getFollowers(Long userId);
+
+	public List<UserEntity> getFollows(Long userId);
+
+	public List<UserEntity> getAllUsers();
+	
+	public UserEntity getUser(Long userId);
 }
