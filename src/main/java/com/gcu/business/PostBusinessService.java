@@ -101,12 +101,15 @@ public class PostBusinessService implements PostBusinessServiceInterface {
 	@Override
 	public PostModel getPost(Long postId) {
 		try {
+			if (postDataservice.getPost(postId) == null)
+				return null;
+
 			PostEntity postEntity = postDataservice.getPost(postId);
+
 			PostModel postModel = new PostModel();
 			postModel.setId(postEntity.getPostId());
 			postModel.setTitle(postEntity.getTitle());
 			postModel.setText(postEntity.getText());
-
 			String sqlDate = postEntity.getDate().toString();
 			sqlDate = formatDate(sqlDate);
 			postModel.setDate(sqlDate);

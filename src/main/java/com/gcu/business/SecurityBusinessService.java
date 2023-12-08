@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gcu.data.UserDataService;
+import com.gcu.data.entity.PostEntity;
 import com.gcu.data.entity.UserEntity;
+import com.gcu.model.PostModel;
 import com.gcu.model.UserModel;
 
 /**
@@ -74,5 +76,52 @@ public class SecurityBusinessService implements SecurityBusinessServiceInterface
 			followModels.add(user);
 		}
 		return followModels;
+	}
+
+	@Override
+	public List<UserModel> getAllUsers() {
+		List<UserEntity> userEntities = new ArrayList<UserEntity>();
+		List<UserModel> userModels = new ArrayList<UserModel>();
+
+		userEntities = userDataService.getAllUsers();
+
+		for (UserEntity userEntity : userEntities) {
+			UserModel user = new UserModel();
+
+			user.setEmail(userEntity.getEmail());
+			user.setId(userEntity.getId());
+
+			user.setPassword(userEntity.getPassword());
+			user.setUsername(userEntity.getUsername());
+
+			userModels.add(user);
+		}
+
+		return userModels;
+	}
+
+	@Override
+	public UserModel getUser(Long userId) {
+		try {
+			
+			
+			if (userDataService.getUser(userId) == null)
+				return null;
+
+			UserEntity userEntity = userDataService.getUser(userId);
+
+			UserModel userModel = new UserModel();
+
+			userModel.setEmail(userEntity.getEmail());
+			userModel.setId(userEntity.getId());
+			userModel.setPassword(userEntity.getPassword());
+			userModel.setUsername(userEntity.getUsername());
+
+			return userModel;
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

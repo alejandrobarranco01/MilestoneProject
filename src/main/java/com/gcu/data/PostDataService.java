@@ -61,6 +61,7 @@ public class PostDataService implements PostDataAccessInterface<PostEntity> {
 	 */
 	@Override
 	public PostEntity getPost(Long postId) {
+		if (postRepository.getPostById(postId) == null) return null;
 		return postRepository.getPostById(postId);
 	}
 

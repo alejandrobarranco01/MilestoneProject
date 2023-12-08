@@ -21,7 +21,7 @@ import com.gcu.data.repository.UserRepository;
 @Service
 public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	@Autowired
-	private UserRepository usersRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplateObject;
@@ -32,8 +32,8 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	 * @param usersRepository The repository for managing user data.
 	 * @param dataSource      The data source providing the database connection.
 	 */
-	public UserDataService(UserRepository usersRepository, DataSource dataSource) {
-		this.usersRepository = usersRepository;
+	public UserDataService(UserRepository userRepository, DataSource dataSource) {
+		this.userRepository = userRepository;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 
@@ -109,7 +109,7 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 	 */
 	@Override
 	public int verifyLogin(String email, String password) {
-		int response = usersRepository.verifyLogin(email, password);
+		int response = userRepository.verifyLogin(email, password);
 
 		// Success
 		if (response > 0)
@@ -125,24 +125,27 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 
 	}
 
+	@Override
 	public boolean updateUserUsername(String email, String newUsername) {
 
 		String sql = "UPDATE USERS SET USERNAME = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newUsername, email);
 
-		Long author_id = usersRepository.getAuthorIdFromEmail(email);
+		Long author_id = userRepository.getAuthorIdFromEmail(email);
 		String updatePostUsernames = "UPDATE POSTS SET AUTHOR_USERNAME = ? WHERE AUTHOR_ID = ?";
 		jdbcTemplateObject.update(updatePostUsernames, newUsername, author_id);
 
 		return rowsAffected > 0;
 	}
 
+	@Override
 	public boolean updateUserPassword(String email, String newPassword) {
 		String sql = "UPDATE USERS SET PASSWORD = ? WHERE EMAIL = ?";
 		int rowsAffected = jdbcTemplateObject.update(sql, newPassword, email);
 		return rowsAffected > 0;
 	}
 
+	@Override
 	public List<UserEntity> getFollowers(Long userId) {
 		String sql = "SELECT u.* FROM USERS u " + "INNER JOIN FOLLOWS f ON u.ID = f.FOLLOWER_ID "
 				+ "WHERE f.FOLLOWED_ID = ?";
@@ -150,11 +153,25 @@ public class UserDataService implements UserDataAccessInterface<UserEntity> {
 		return jdbcTemplateObject.query(sql, new Object[] { userId }, new BeanPropertyRowMapper<>(UserEntity.class));
 	}
 
+	@Override
 	public List<UserEntity> getFollows(Long userId) {
 		String sql = "SELECT u.* FROM USERS u " + "INNER JOIN FOLLOWS f ON u.ID = f.FOLLOWED_ID "
 				+ "WHERE f.FOLLOWER_ID = ?";
 
 		return jdbcTemplateObject.query(sql, new Object[] { userId }, new BeanPropertyRowMapper<>(UserEntity.class));
+	}
+
+	@Override
+	public List<UserEntity> getAllUsers() {
+		return userRepository.getAllUsers();
+	}
+
+	@Override
+	public UserEntity getUser(Long userId) {
+		if (userRepository.getUser(userId) == null)
+			return null;
+
+		return userRepository.getUser(userId);
 	}
 
 }

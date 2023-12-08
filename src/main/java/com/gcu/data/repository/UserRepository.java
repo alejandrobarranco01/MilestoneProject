@@ -1,5 +1,7 @@
 package com.gcu.data.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jdbc.repository.query.Modifying;
@@ -67,4 +69,9 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
 	@Query("SELECT COUNT(*) FROM FOLLOWS WHERE FOLLOWER_ID = :userId")
 	int getFollowsCount(Long userId);
 
+	@Query("SELECT * FROM USERS")
+	List<UserEntity> getAllUsers();
+	
+	@Query("SELECT * FROM USERS WHERE ID = :userId")
+	UserEntity getUser(Long userId);
 }

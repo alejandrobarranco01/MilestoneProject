@@ -38,6 +38,10 @@ public class PostEntity {
 		this.authorId = authorId;
 		this.authorUsername = authorUsername;
 	}
+	
+	public PostEntity() {
+		
+	}
 
 	public Long getPostId() {
 		return postId;
@@ -85,6 +89,10 @@ public class PostEntity {
 
 	public void setAuthorUsername(String authorUsername) {
 		this.authorUsername = authorUsername;
+	}
+
+	public boolean invalid() {
+		return (date == null || title == null || text == null || authorId == null || authorUsername == null);
 	}
 
 }

@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "posts")
-public class PostsList {
+public class PostList {
 	private List<PostModel> posts = new ArrayList<PostModel>();
 
 	@XmlElement(name = "post")
-	public List<PostModel> getOrders() {
+	public List<PostModel> getPosts() {
 		return this.posts;
 	}
 
