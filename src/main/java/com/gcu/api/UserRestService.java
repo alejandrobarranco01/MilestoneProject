@@ -17,17 +17,28 @@ import com.gcu.model.PostModel;
 import com.gcu.model.UserList;
 import com.gcu.model.UserModel;
 
+/**
+ * This class models all API responses for user models
+ */
 @RestController
 @RequestMapping("/api/user-service")
 public class UserRestService {
 	@Autowired
 	SecurityBusinessService securityBusinessService;
 
+	/**
+	 * Endpoint returns all user models as JSON data
+	 * @return
+	 */
 	@GetMapping(path = "/getjson", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<UserModel> getUsersAsJson() {
 		return securityBusinessService.getAllUsers();
 	}
 
+	/**
+	 * Endpoint returns all user models as XML data
+	 * @return
+	 */
 	@GetMapping(path = "/getxml", produces = { MediaType.APPLICATION_XML_VALUE })
 	public UserList getUsersAsXML() {
 		UserList list = new UserList();
@@ -35,6 +46,11 @@ public class UserRestService {
 		return list;
 	}
 
+	/**
+	 * Endpoint returns json data for a specific user based on user ID
+	 * @param userId
+	 * @return
+	 */
 	@GetMapping(path = "/getjson/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserModel> getUserAsJSONById(@PathVariable Long userId) {
 
@@ -48,6 +64,9 @@ public class UserRestService {
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	/**
+	 * Endpoint returns XML data for specific user based on user ID
+	 */
 	@GetMapping(path = "/getxml/{userId}", produces = { MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<UserModel> getUserAsXMLById(@PathVariable Long userId) {
 
