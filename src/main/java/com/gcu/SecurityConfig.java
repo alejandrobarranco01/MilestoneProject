@@ -2,12 +2,9 @@ package com.gcu;
 
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Configuration
@@ -24,7 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/**").authenticated()
 				.and()
 				.authorizeRequests()
-				.antMatchers("/", "/images/**", "/login", "/register", "/css/**").permitAll()
+				.antMatchers("/", "/images/**", "/register", "/css/**").permitAll()
+				.and()
+			.formLogin()
+				.loginPage("/login")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.permitAll()
+				.defaultSuccessUrl("/home", true)
 				.and()
 			.logout()
 				.logoutUrl("/signout")
