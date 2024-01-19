@@ -57,8 +57,6 @@ The application uses MySQL for data persistence. You can find the database schem
 ![Screenshot 4](/docs/screenshots/other-profile.png)
 *Sceeenshot of another user's profile.*
 
-## Live Demo
 
-Check out the live demo [here](to be added), and experience the application without setting it up locally.
 
 
